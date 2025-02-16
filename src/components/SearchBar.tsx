@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearchQuery } from "../app/searchSlice"; // You need to create this slice for search query.
+import { setSearchQuery } from "../app/searchSlice";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -18,7 +18,7 @@ const SearchBar: React.FC = () => {
         value={query}
         onChange={handleSearchChange}
         placeholder="Search news..."
-        className="px-4 py-2 border border-gray-300 w-1/2"
+        className="px-4 py-2 border-1 w-full mx-4 md:w-1/2"
       />
     </div>
   );

@@ -30,11 +30,20 @@ const SearchResults: React.FC = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="container mx-auto px-4 py-6 space-y-4">
       {filteredArticles.map((article) => (
-        <div key={article.id} className="border p-4">
-          <h3 className="text-xl font-semibold">{article.title}</h3>
-          <p className="text-sm">{article.summary}</p>
+        <div key={article.id} className="border-b-1 p-4 mb-4">
+          <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
+            <img
+              className="w-full h-48 md:w-24 md:h-24 object-cover rounded-md group-hover:opacity-80"
+              src="https://placehold.co/200x200"
+              alt={article.title}
+            />
+            <div className="flex-1">
+              <h3 className="text-xl md:text-2xl font-semibold">{article.title}</h3>
+              <p className="text-lg">{article.summary}</p>
+            </div>
+          </div>
         </div>
       ))}
     </div>

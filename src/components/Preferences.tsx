@@ -63,7 +63,9 @@ const Preferences: React.FC = () => {
   return (
     <Overlay>
       <div className="relative px-8 py-4">
-        <h3 className="text-2xl mb-8">Set Preferences</h3>
+        <h2 className="text-2xl lora-bold mb-8">
+          <span className="border-b-2">Set Preferences &gt;</span>
+        </h2>
         {getPreferencesFromLocal() ? (
           <button className="absolute top-4 right-4 max-w-6 cursor-pointer" onClick={handleClose}>
             <img src="https://cdn-icons-png.flaticon.com/64/2961/2961937.png" />

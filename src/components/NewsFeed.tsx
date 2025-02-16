@@ -8,7 +8,7 @@ const categories = [
     headline: "Global Conflict Escalates Amid Tensions",
     description:
       "Tensions rise in global political climate. Experts debate on potential outcomes as world leaders weigh in.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -17,7 +17,7 @@ const categories = [
     headline: "New Political Reforms Shake the Nation",
     description:
       "The government has introduced new reforms aimed at revitalizing the economy and improving public services.",
-    imageUrl: "https://via.placeholder.com/400x600",
+    imageUrl: "https://placehold.co/400x600",
     link: "#",
   },
   {
@@ -26,7 +26,7 @@ const categories = [
     headline: "AI Innovations That Could Change Our Future",
     description:
       "Artificial Intelligence continues to grow at a rapid pace. Here’s a look at the latest developments in AI technology.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -35,7 +35,7 @@ const categories = [
     headline: "Stock Market Soars Amid Economic Growth",
     description:
       "The stock market has reached record highs following signs of economic growth, with analysts predicting further rise in the near future.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -44,7 +44,7 @@ const categories = [
     headline: "Championship Final: A Thrilling Victory",
     description:
       "The championship final left fans on the edge of their seats as the underdogs secured a dramatic victory.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -53,7 +53,7 @@ const categories = [
     headline: "Hollywood’s Latest Blockbuster Breaks Records",
     description:
       "The latest movie has become an instant hit, breaking box office records and receiving rave reviews from critics and fans alike.",
-    imageUrl: "https://via.placeholder.com/400x600",
+    imageUrl: "https://placehold.co/400x600",
     link: "#",
   },
   {
@@ -62,7 +62,7 @@ const categories = [
     headline: "New Medical Breakthroughs in Cancer Treatment",
     description:
       "Groundbreaking research is giving hope to patients, with new treatments showing incredible potential for cancer remission.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -71,7 +71,7 @@ const categories = [
     headline: "Space Exploration Reaches New Heights",
     description:
       "The latest space missions are setting new records for humanity’s exploration of space, including the first private-funded moon landing.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -80,7 +80,7 @@ const categories = [
     headline: "Top 10 Destinations to Visit This Year",
     description:
       "From exotic islands to cultural cities, here are the top travel destinations for 2025 that every traveler should consider.",
-    imageUrl: "https://via.placeholder.com/600x400",
+    imageUrl: "https://placehold.co/600x400",
     link: "#",
   },
   {
@@ -88,7 +88,7 @@ const categories = [
     name: "Lifestyle",
     headline: "10 Habits That Will Improve Your Daily Life",
     description: "Small lifestyle changes that can make a big difference in your physical and mental health over time.",
-    imageUrl: "https://via.placeholder.com/400x600",
+    imageUrl: "https://placehold.co/400x600",
     link: "#",
   },
 ];

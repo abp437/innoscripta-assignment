@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ArticlesList from "./components/ArticlesList";
@@ -10,22 +11,42 @@ import Category from "./components/Category";
 import SearchBar from "./components/SearchBar";
 import Filter from "./components/Filter";
 import SearchResults from "./components/SearchResults";
+import SubHeader from "./components/SubHeader";
 
 function App() {
   return (
     <Provider store={store}>
-      <Header />
-      <main className="min-h-screen bg-gray-50 pt-6">
-        <SearchBar />
-        {/* <Filter />
-        <SearchResults /> */}
-        <HeroGrid />
-        <Category />
-        {/* <NewsFeed /> */}
-        {/* <ArticlesList /> */}
-        <Preferences />
-      </main>
-      <Footer />
+      <Router>
+        <Header />
+        <SubHeader />
+        <main className="min-h-screen bg-gray-50 pt-6">
+          <SearchBar />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <HeroGrid />
+                  <Category />
+                </>
+              }
+            />
+            <Route path="/newsfeed" element={<NewsFeed />} />
+            <Route path="/articles" element={<ArticlesList />} />
+            <Route
+              path="/search"
+              element={
+                <>
+                  <Filter />
+                  <SearchResults />
+                </>
+              }
+            />
+          </Routes>
+          <Preferences />
+        </main>
+        <Footer />
+      </Router>
     </Provider>
   );
 }
