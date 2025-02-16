@@ -5,6 +5,8 @@ import Footer from "./components/Footer";
 import ArticlesList from "./components/ArticlesList";
 import Preferences from "./components/Preferences";
 import HeroGrid from "./components/HeroGrid";
+import CategorizedNews from "./components/CategorizedNews";
+import Category from "./components/Category";
 import SearchBar from "./components/SearchBar";
 import Filter from "./components/Filter";
 import SearchResults from "./components/SearchResults";
@@ -13,11 +15,13 @@ function App() {
   return (
     <Provider store={store}>
       <Header />
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-gray-50 py-6">
         <SearchBar />
         {/* <Filter />
         <SearchResults /> */}
         <HeroGrid />
+        <Category />
+        <CategorizedNews />
         {/* <ArticlesList /> */}
         <Preferences />
       </main>

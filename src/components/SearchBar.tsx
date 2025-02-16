@@ -18,7 +18,7 @@ const SearchBar: React.FC = () => {
         value={query}
         onChange={handleSearchChange}
         placeholder="Search news..."
-        className="px-4 py-2 border border-gray-300 rounded-md w-1/2"
+        className="px-4 py-2 border border-gray-300 w-1/2"
       />
     </div>
   );

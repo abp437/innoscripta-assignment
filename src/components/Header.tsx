@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm mb-6">
+    <header className="bg-white shadow-sm">
       <div className="flex justify-between items-center max-w-4xl mx-auto px-4 py-6">
         <div className="w-8"></div>
         <h1 className="text-4xl font-bold text-gray-900 lobster-two-bold uppercase text-center">News Aggregator</h1>

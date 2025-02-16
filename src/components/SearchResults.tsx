@@ -32,7 +32,7 @@ const SearchResults: React.FC = () => {
   return (
     <div className="space-y-4">
       {filteredArticles.map((article) => (
-        <div key={article.id} className="border p-4 rounded-md">
+        <div key={article.id} className="border p-4">
           <h3 className="text-xl font-semibold">{article.title}</h3>
           <p className="text-sm">{article.summary}</p>
         </div>
