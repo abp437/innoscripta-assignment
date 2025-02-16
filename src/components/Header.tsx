@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     <header className="bg-white shadow-sm">
       <div className="flex justify-between items-center max-w-4xl mx-auto px-4 py-6">
         <div className="w-8"></div>
-        <h1 className="text-4xl font-bold text-gray-900 lobster-two-bold uppercase text-center">News Aggregator</h1>
+        <h1 className="text-4xl cinzel-bold text-gray-900 uppercase text-center">News Aggregator</h1>
         <div className="w-8">
           <img
             src="https://cdn-icons-png.flaticon.com/64/1301/1301515.png"

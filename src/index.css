@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 body {
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-regular {
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -8,13 +15,7 @@ body {
   font-variation-settings: "wdth" 100;
 }
 
-.lobster-two-bold {
-  font-family: "Lobster Two", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.roboto-regular {
+.roboto-bold {
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -59,6 +60,13 @@ body {
 
 .lora-bold {
   font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.cinzel-bold {
+  font-family: "Cinzel", serif;
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;

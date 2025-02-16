@@ -72,44 +72,58 @@ const HeroGrid: React.FC = () => {
         {/* Left Column (Main Content + Trending News) */}
         <div className="lg:col-span-3 pr-4 pb-8 lg:pb-0">
           {/* Main Content (First two articles) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-8 border-b-1">
             {articles.slice(0, 2).map((article) => (
-              <div
-                key={article.id}
-                className="bg-white shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow duration-300"
-              >
-                <h2 className="text-2xl font-semibold mb-4">{article.title}</h2>
-                <p className="text-gray-700 mb-4">{article.description}</p>
-                <img className="w-full h-auto mb-4" src={article.imageUrl} alt={article.title} />
-                <span className="text-sm font-medium text-gray-500">{article.category}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Trending News */}
-          <h2 className="text-xl font-semibold mb-4">Trending</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trendingArticles.map((article) => (
-              <div key={article.id} className="bg-white shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="font-semibold text-lg text-gray-900">{article.title}</h3>
-                <p className="text-sm text-gray-600">{article.description}</p>
+              <div key={article.id} className="group overflow-hidden">
+                <img
+                  className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
+                  src={article.imageUrl}
+                  alt={article.title}
+                />
+                <div className="pb-6 pt-2">
+                  <h3 className="text-2xl lora-bold text-gray-800 mb-2">{article.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">
+                    {article.description}
+                  </p>
+                  <span className="text-sm font-medium text-gray-500">{article.category}</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Right Sidebar (Latest Updates) */}
-        <div className="lg:col-span-1 pl-4 pb-8 lg:pb-0">
-          <h2 className="text-xl font-semibold mb-4">Latest Updates</h2>
+        <div className="lg:col-span-1 md:pl-0 pl-4 pb-8 lg:pb-0">
+          <h2 className="text-xl lora-bold mb-4">
+            <span className="border-b-2">Latest Updates &gt;</span>
+          </h2>
           <div className="space-y-4">
             {latestUpdates.map((update) => (
-              <div key={update.id}>
-                <h3 className="font-semibold text-lg text-gray-900">{update.title}</h3>
-                <p className="text-sm text-gray-600">{update.description}</p>
+              <div key={update.id} className="group overflow-hidden">
+                <div className="border-b-1">
+                  <h3 className="text-lg lora-bold text-gray-800 mb-2">{update.title}</h3>
+                  <p className="text-sm text-gray-600 mb-4 overflow-hidden text-ellipsis line-clamp-2">
+                    {update.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </div>
+      {/* Trending News */}
+      <h2 className="text-xl lora-bold mb-4">
+        <span className="border-b-2">Trending &gt;</span>
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {trendingArticles.map((article) => (
+          <div key={article.id} className="group overflow-hidden">
+            <div className="">
+              <h3 className="text-lg lora-bold text-gray-800 mb-2">{article.title}</h3>
+              <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2">{article.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

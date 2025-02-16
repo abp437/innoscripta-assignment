@@ -102,7 +102,7 @@ const Category: React.FC = () => {
   };
 
   return (
-    <div className="border-t-2 border-b-2 bg-white">
+    <div className="border-t-2 bg-white">
       <div className="container mx-auto px-4 pt-16 pb-6">
         {/* Category Sections */}
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -110,7 +110,9 @@ const Category: React.FC = () => {
             .filter((category) => selectedCategories.includes(category.id)) // Only render selected categories
             .map((category) => (
               <div key={category.id} className="mb-10">
-                <h2 className="text-3xl lora-bold text-gray-800 mb-4">{category.name} &gt;</h2>
+                <h2 className="text-3xl lora-bold text-gray-800 mb-8">
+                  <span className="border-b-2">{category.name} &gt;</span>
+                </h2>
 
                 {/* Articles in the category */}
                 <div className="grid grid-cols-1 gap-6">
@@ -118,7 +120,7 @@ const Category: React.FC = () => {
                     <div key={index}>
                       {/* Card for the first article */}
                       {index === 0 ? (
-                        <div className="group overflow-hidden transition-shadow duration-300 border-b-2">
+                        <div className="group overflow-hidden transition-shadow duration-300 border-b-1">
                           <img
                             src={article.imageUrl}
                             alt={article.headline}
@@ -126,7 +128,7 @@ const Category: React.FC = () => {
                           />
                           <div className="pb-6 pt-2">
                             <h3 className="text-xl lora-bold text-gray-800 mb-2">{article.headline}</h3>
-                            <p className="text-gray-600 text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2 playfair-display-regular">
+                            <p className="text-gray-600 text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">
                               {article.description}
                             </p>
                             <a href={article.link} className="text-blue-600 text-sm font-medium hover:underline">
@@ -136,9 +138,9 @@ const Category: React.FC = () => {
                         </div>
                       ) : (
                         // List item for subsequent articles
-                        <div className="text-gray-800 border-b-2 pb-4">
+                        <div className="text-gray-800 border-b-1 pb-4">
                           <h3 className="lora-bold text-lg">{article.headline}</h3>
-                          <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2 playfair-display-regular">
+                          <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                             {article.description}
                           </p>
                           <a href={article.link} className="text-blue-600 text-sm font-medium hover:underline">
