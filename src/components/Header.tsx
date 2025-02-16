@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { showPreferences } from "../app/preferencesSlice"; // import the action
+import { showPreferences } from "../app/preferencesSlice";
 
-const NewsHeader: React.FC = () => {
+const Header: React.FC = () => {
   const dispatch = useDispatch();
 
   // Dispatch the showPreferences action when the logo is clicked
@@ -13,7 +13,7 @@ const NewsHeader: React.FC = () => {
     <header className="bg-white shadow-sm mb-6">
       <div className="flex justify-between items-center max-w-4xl mx-auto px-4 py-6">
         <div className="w-8"></div>
-        <h1 className="text-5xl font-bold text-gray-900 lobster-two-bold uppercase text-center">News Aggregator</h1>
+        <h1 className="text-4xl font-bold text-gray-900 lobster-two-bold uppercase text-center">News Aggregator</h1>
         <div className="w-8">
           <img
             src="https://cdn-icons-png.flaticon.com/64/1301/1301515.png"
@@ -27,4 +27,4 @@ const NewsHeader: React.FC = () => {
   );
 };
 
-export default NewsHeader;
+export default Header;
