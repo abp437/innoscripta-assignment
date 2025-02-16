@@ -45,7 +45,7 @@ export const apiSlice = createApi({
       query: () => ({
         url: "https://newsapi.org/v2/everything",
         params: {
-          q: "Tesla",
+          q: "trump",
           from: "2025-02-11",
           sortBy: "popularity",
           apiKey: import.meta.env.VITE_NEWS_API_KEY,
@@ -55,27 +55,27 @@ export const apiSlice = createApi({
     }),
 
     getNYTimesArticles: builder.query<Article[], void>({
-      query: () => ({
-        url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-        params: {
-          q: "election",
-          "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
-        },
-      }),
-      transformResponse: (response: NYTimesResponse) =>
-        response.response.docs.map((doc) => ({
-          title: doc.headline.main,
-          description: doc.abstract,
-          url: doc.web_url,
-          source: { name: "New York Times" },
-        })),
+      // query: () => ({
+      //   url: "https://api.nytimes.com/svc/search/v2/articlesearch.json",
+      //   params: {
+      //     q: "",
+      //     "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
+      //   },
+      // }),
+      // transformResponse: (response: NYTimesResponse) =>
+      //   response.response.docs.map((doc) => ({
+      //     title: doc.headline.main,
+      //     description: doc.abstract,
+      //     url: doc.web_url,
+      //     source: { name: "New York Times" },
+      //   })),
     }),
 
     getGuardianArticles: builder.query<Article[], void>({
       queryFn: async () => {
         try {
           const guardian = new Guardian(import.meta.env.VITE_THE_GUARDIAN_API_KEY, false);
-          const response = (await guardian.content.search("football")) as GuardianResponse;
+          const response = (await guardian.content.search("latest")) as GuardianResponse;
 
           const transformedData = response.results.map((result) => ({
             title: result.webTitle,

@@ -1,7 +1,8 @@
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import { NewsHeader } from "./components/NewsHeader";
-import { ArticlesList } from "./components/ArticlesList";
+import NewsHeader from "./components/NewsHeader";
+import ArticlesList from "./components/ArticlesList";
+import Preferences from "./components/Preferences";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <NewsHeader />
         <main>
           <ArticlesList />
+          <Preferences />
         </main>
       </div>
     </Provider>

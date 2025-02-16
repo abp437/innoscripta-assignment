@@ -13,10 +13,10 @@ interface ArticleCardProps {
   article: Article;
 }
 
-export const ArticleCard = memo(({ article }: ArticleCardProps) => (
+const ArticleCard = memo(({ article }: ArticleCardProps) => (
   <div className="article p-4 border rounded-lg shadow-sm mb-4">
-    <h2 className="text-xl font-bold mb-2">{article.title}</h2>
-    <p className="text-gray-600 mb-3">{article.description}</p>
+    <h2 className="text-2xl font-bold mb-2 lora-bold">{article.title}</h2>
+    <p className="text-gray-600 mb-3 playfair-display-medium">{article.description}</p>
     <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
       Read more
     </a>
@@ -26,4 +26,4 @@ export const ArticleCard = memo(({ article }: ArticleCardProps) => (
   </div>
 ));
 
-ArticleCard.displayName = "ArticleCard";
+export default ArticleCard;

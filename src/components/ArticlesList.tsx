@@ -1,12 +1,12 @@
 import { memo, useMemo } from "react";
-import { ArticleCard } from "./ArticleCard";
+import ArticleCard from "./ArticleCard";
 import {
   useGetNewsApiArticlesQuery,
   useGetNYTimesArticlesQuery,
   useGetGuardianArticlesQuery,
 } from "../features/api/apiSlice";
 
-export const ArticlesList = memo(() => {
+const ArticlesList = memo(() => {
   const {
     data: newsApiArticles = [],
     isLoading: isLoadingNews,
@@ -143,4 +143,4 @@ export const ArticlesList = memo(() => {
   );
 });
 
-ArticlesList.displayName = "ArticlesList";
+export default ArticlesList;

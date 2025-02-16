@@ -1,9 +1,30 @@
-export const NewsHeader = () => (
-  <header className="bg-white shadow-sm mb-6">
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold text-gray-900">Latest News</h1>
-    </div>
-  </header>
-);
+import { useDispatch } from "react-redux";
+import { showPreferences } from "../app/preferencesSlice"; // import the action
 
-NewsHeader.displayName = "NewsHeader";
+const NewsHeader: React.FC = () => {
+  const dispatch = useDispatch();
+
+  // Dispatch the showPreferences action when the logo is clicked
+  const handleLogoClick = () => {
+    dispatch(showPreferences());
+  };
+
+  return (
+    <header className="bg-white shadow-sm mb-6">
+      <div className="flex justify-between items-center max-w-4xl mx-auto px-4 py-6">
+        <div className="w-8"></div>
+        <h1 className="text-5xl font-bold text-gray-900 lobster-two-bold uppercase text-center">News Aggregator</h1>
+        <div className="w-8">
+          <img
+            src="https://cdn-icons-png.flaticon.com/64/1301/1301515.png"
+            alt="preferences logo"
+            onClick={handleLogoClick}
+            className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
+          />
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default NewsHeader;
