@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { showPreferences } from "../app/preferencesSlice";
+import SettingsIcon from "./icons/SettingsIcon";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -17,12 +18,9 @@ const Header: React.FC = () => {
           <NavLink to="/">News Aggregator</NavLink>
         </h1>
         <div className="w-8">
-          <img
-            src="https://cdn-icons-png.flaticon.com/64/1301/1301515.png"
-            alt="preferences logo"
-            onClick={handleLogoClick}
-            className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
-          />
+          <button className="cursor-pointer" onClick={handleLogoClick}>
+            <SettingsIcon width={48} height={48} />
+          </button>
         </div>
       </div>
     </header>
