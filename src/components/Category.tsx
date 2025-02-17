@@ -132,7 +132,12 @@ const Category: React.FC = () => {
                             <p className="text-gray-600 text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">
                               {article.description}
                             </p>
-                            <a href={article.link} className="text-sm font-medium">
+                            <a
+                              href={article.link}
+                              className="text-sm font-medium"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               <HighlightText>Read more</HighlightText>
                             </a>
                           </div>
@@ -144,7 +149,12 @@ const Category: React.FC = () => {
                           <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                             {article.description}
                           </p>
-                          <a href={article.link} className="text-sm font-medium">
+                          <a
+                            href={article.link}
+                            className="text-sm font-medium"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <HighlightText>Read more</HighlightText>
                           </a>
                         </div>

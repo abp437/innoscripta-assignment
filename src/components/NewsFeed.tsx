@@ -120,7 +120,7 @@ const NewsFeed: React.FC = () => {
               <p className="text-gray-600 text-sm mb-4">{category.description}</p>
 
               {/* Read More Link */}
-              <a href={category.link} className="text-sm font-medium">
+              <a href={category.link} className="text-sm font-medium" target="_blank" rel="noopener noreferrer">
                 <HighlightText>Read more</HighlightText>
               </a>
             </div>
