@@ -35,7 +35,7 @@ const SourcesStep: React.FC<SourcesStepProps> = ({ sources, setSources, onSubmit
       <div className="flex justify-end">
         <button
           onClick={onSubmit}
-          className="bg-red-600 text-white p-2 hover:bg-blue-600 transition duration-200 cursor-pointer"
+          className="bg-red-600 text-white p-2 hover:bg-red-500 transition duration-200 cursor-pointer"
         >
           Submit
         </button>

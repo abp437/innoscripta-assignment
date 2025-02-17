@@ -42,7 +42,7 @@ const Preferences: React.FC = () => {
   };
 
   const handleSkip = () => {
-    const allCategories = ["Latest", "Sports", "Tech", "Politics", "Arts"];
+    const allCategories = ["general", "business", "technology", "sports", "health"];
     const allSources = ["NY Times", "Guardian", "News"];
 
     saveToLocalStorage(allCategories, allSources);
@@ -54,6 +54,7 @@ const Preferences: React.FC = () => {
     setSources(sources);
     saveToLocalStorage(categories, sources);
     dispatch(hidePreferences());
+    location.reload();
   };
 
   const handleClose = () => {

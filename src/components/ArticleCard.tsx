@@ -18,7 +18,7 @@ const ArticleCard = memo(({ article }: ArticleCardProps) => (
   <div className="article p-4 border shadow-sm mb-4">
     <h2 className="text-2xl font-bold mb-2 lora-bold">{article.title}</h2>
     <p className="text-gray-600 mb-3">{article.description}</p>
-    <a href={article.url} target="_blank" rel="noopener noreferrer">
+    <a href={article.url} className="lora-bold" target="_blank" rel="noopener noreferrer">
       <HighlightText>Read more</HighlightText>
     </a>
     <p className="mt-2 text-sm text-gray-500">

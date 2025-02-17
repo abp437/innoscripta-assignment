@@ -22,15 +22,20 @@ const HeroGrid: React.FC = () => {
     // Async function to get top headlines
     const getTopHeadlines = async () => {
       try {
-        const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=general", {
+        const response = await axios.get("https://newsapi.org/v2/top-headlines", {
           params: {
             sortBy: "popularity",
+            country: "us",
             apiKey: import.meta.env.VITE_NEWS_API_KEY,
           },
         });
 
         const topHeadlines: Article[] = response.data.articles;
-        const hero = topHeadlines.slice(0, 2);
+
+        // Get the first two articles that have a valid urlToImage
+        const hero = topHeadlines.filter((article) => article.urlToImage).slice(0, 2);
+
+        // Get the next three articles for trending and the remaining for latest updates
         const trending = topHeadlines.slice(2, 5);
         const latest = topHeadlines.slice(5, 8);
 
@@ -56,17 +61,17 @@ const HeroGrid: React.FC = () => {
   // Skeleton loader component
   const SkeletonLoader = () => (
     <div className="animate-pulse">
-      <div className="w-full h-64 bg-gray-300 rounded-md mb-4"></div>
-      <div className="w-full h-6 bg-gray-300 rounded-md mb-2"></div>
-      <div className="w-3/4 h-6 bg-gray-300 rounded-md mb-4"></div>
+      <div className="w-full h-64 bg-gray-300 mb-4"></div>
+      <div className="w-full h-6 bg-gray-300 mb-2"></div>
+      <div className="w-3/4 h-6 bg-gray-300 mb-4"></div>
     </div>
   );
 
   // SmallSkeleton loader component
   const SmallSkeletonLoader = () => (
     <div className="animate-pulse">
-      <div className="w-full h-6 bg-gray-300 rounded-md mb-2"></div>
-      <div className="w-3/4 h-6 bg-gray-300 rounded-md mb-4"></div>
+      <div className="w-full h-6 bg-gray-300 mb-2"></div>
+      <div className="w-3/4 h-6 bg-gray-300 mb-4"></div>
     </div>
   );
 
@@ -82,24 +87,26 @@ const HeroGrid: React.FC = () => {
               ? Array(2)
                   .fill(0)
                   .map((_, index) => <SkeletonLoader key={index} />)
-              : articles.map(({ url, urlToImage, title, description }) => (
-                  <div key={url} className="group overflow-hidden">
-                    <img
-                      className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
-                      src={urlToImage}
-                      alt={title}
-                    />
-                    <div className="pb-6 pt-2">
-                      <h3 className="text-2xl lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
-                      <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
-                        {description}
-                      </p>
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="block mb-4">
-                        <HighlightText>Read more</HighlightText>
-                      </a>
+              : articles
+                  .filter((article) => article.urlToImage) // Filter articles where urlToImage is not null or empty
+                  .map(({ url, urlToImage, title, description }) => (
+                    <div key={url} className="group overflow-hidden">
+                      <img
+                        className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
+                        src={urlToImage}
+                        alt={title}
+                      />
+                      <div className="pb-6 pt-2">
+                        <h3 className="text-2xl lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
+                        <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                          {description}
+                        </p>
+                        <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold mb-4">
+                          <HighlightText>Read more</HighlightText>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
           </div>
         </div>
 
@@ -120,7 +127,7 @@ const HeroGrid: React.FC = () => {
                       <p className="text-sm text-gray-600 mb-2 overflow-hidden text-ellipsis line-clamp-2">
                         {description}
                       </p>
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="block mb-4">
+                      <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold mb-4">
                         <HighlightText>Read more</HighlightText>
                       </a>
                     </div>
@@ -141,13 +148,11 @@ const HeroGrid: React.FC = () => {
               .map((_, index) => <SmallSkeletonLoader key={index} />)
           : trendingArticles.map(({ url, title, description }) => (
               <div key={url} className="group overflow-hidden">
-                <div className="">
-                  <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
-                  <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2 mb-2">{description}</p>
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    <HighlightText>Read more</HighlightText>
-                  </a>
-                </div>
+                <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
+                <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2 mb-2">{description}</p>
+                <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold">
+                  <HighlightText>Read more</HighlightText>
+                </a>
               </div>
             ))}
       </div>

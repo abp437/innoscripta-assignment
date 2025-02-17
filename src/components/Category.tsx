@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HighlightText from "./HighlightText";
-import { getCategoriesFromLocalStorage } from "../utils/localStorage"; // Import the utility function
+import { getCategoriesFromLocalStorage } from "../utils/localStorage";
+import NewsIcon from "./icons/NewsIcon";
 
 const Category: React.FC = () => {
-  // State to store articles for each category
   const [articles, setArticles] = useState<{ [key: string]: any[] }>({});
-  // State to store loading status for each category
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
-  // State to store error messages for each category
   const [error, setError] = useState<{ [key: string]: string }>({});
-  // State to store categories from localStorage
   const [categories, setCategories] = useState<string[]>([]);
 
   // Fetch articles for a given category
@@ -22,7 +19,7 @@ const Category: React.FC = () => {
           country: "us",
           category,
           pageSize: 5,
-          page: 1,
+          page: category === "general" ? 2 : 1,
         },
       });
       setArticles((prevArticles) => ({
@@ -100,8 +97,8 @@ const Category: React.FC = () => {
 
                   {/* Skeleton for articles */}
                   <div className="space-y-4">
-                    {[...Array(3)].map((_, index) => (
-                      <div key={index} className="space-y-3">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="space-y-3">
                         <div className="h-6 bg-gray-300 rounded w-1/2"></div>
                         <div className="h-4 bg-gray-300 rounded w-full"></div>
                         <div className="h-3 bg-gray-300 rounded w-1/4"></div>
@@ -113,13 +110,29 @@ const Category: React.FC = () => {
                 <div className="text-red-500 text-sm">{error[category]}</div> // Show error message
               ) : (
                 <div className="grid grid-cols-1 gap-6">
-                  {articles[category]?.map((article, index) => (
-                    <div key={index} className="text-gray-800 border-b-1 pb-4 border-gray-300">
-                      <h3 className="lora-bold text-lg">{article.headline}</h3>
+                  {articles[category]?.map((article, i) => (
+                    <div key={article.url} className="text-gray-800 border-b-1 pb-4 border-gray-300">
+                      {/* Check if it's the first article */}
+                      {i === 0 && (
+                        <>
+                          {article.urlToImage ? (
+                            <img
+                              src={article.urlToImage}
+                              alt={article.title}
+                              className="w-full h-56 sm:h-72 md:h-48 lg:h-36 object-cover group-hover:opacity-80 transition-opacity duration-300 mb-2"
+                            />
+                          ) : (
+                            <div className="w-full h-56 sm:h-72 md:h-48 lg:h-36 object-cover group-hover:opacity-80 flex justify-center items-center border-1 mb-2">
+                              <NewsIcon width={50} height={50} />
+                            </div>
+                          )}
+                        </>
+                      )}
+                      <h3 className="lora-bold text-lg">{article.title}</h3>
                       <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                         {article.description}
                       </p>
-                      <a href={article.link} className="text-sm font-medium" target="_blank" rel="noopener noreferrer">
+                      <a href={article.url} className="text-sm lora-bold" target="_blank" rel="noopener noreferrer">
                         <HighlightText>Read more</HighlightText>
                       </a>
                     </div>

@@ -7,11 +7,11 @@ interface CategoriesStepProps {
 
 const CategoriesStep: React.FC<CategoriesStepProps> = ({ categories, setCategories }) => {
   const options = [
-    { value: "Latest", label: "Latest" },
-    { value: "Sports", label: "Sports" },
-    { value: "Tech", label: "Tech" },
-    { value: "Politics", label: "Politics" },
-    { value: "Arts", label: "Arts" },
+    { value: "general", label: "General" },
+    { value: "business", label: "Business" },
+    { value: "technology", label: "Technology" },
+    { value: "sports", label: "Sports" },
+    { value: "health", label: "Health" },
   ];
 
   const handleChange = (selectedOptions: any) => {
