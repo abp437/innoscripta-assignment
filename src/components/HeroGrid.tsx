@@ -1,4 +1,4 @@
-import React from "react";
+import HighlightText from "./HighlightText";
 
 const articles = [
   {
@@ -66,13 +66,13 @@ const latestUpdates = [
 
 const HeroGrid: React.FC = () => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Grid with 3 columns */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Left Column (Main Content + Trending News) */}
         <div className="lg:col-span-3 pr-0 md:pr-4 pb-8 lg:pb-0">
           {/* Main Content (First two articles) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-8 border-b-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-8 border-b-1 border-gray-300">
             {articles.slice(0, 2).map((article) => (
               <div key={article.id} className="group overflow-hidden">
                 <img
@@ -95,12 +95,12 @@ const HeroGrid: React.FC = () => {
         {/* Right Sidebar (Latest Updates) */}
         <div className="lg:col-span-1 pl-0 md:pl-4 pb-8 lg:pb-0">
           <h2 className="text-xl lora-bold mb-4">
-            <span className="border-b-2">Latest Updates &gt;</span>
+            <HighlightText>Latest Updates</HighlightText>
           </h2>
           <div className="space-y-4">
             {latestUpdates.map((update) => (
               <div key={update.id} className="group overflow-hidden">
-                <div className="border-b-1">
+                <div className="border-b-1 border-gray-300">
                   <h3 className="text-lg lora-bold text-gray-800 mb-2">{update.title}</h3>
                   <p className="text-sm text-gray-600 mb-4 overflow-hidden text-ellipsis line-clamp-2">
                     {update.description}
@@ -113,7 +113,7 @@ const HeroGrid: React.FC = () => {
       </div>
       {/* Trending News */}
       <h2 className="text-xl lora-bold mb-4">
-        <span className="border-b-2">Trending &gt;</span>
+        <HighlightText>Trending</HighlightText>
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {trendingArticles.map((article) => (

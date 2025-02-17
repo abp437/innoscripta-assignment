@@ -1,5 +1,3 @@
-import React from "react";
-
 const Filter: React.FC = () => {
   return (
     <div className="flex justify-center space-x-4 py-4">

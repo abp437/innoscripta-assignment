@@ -22,8 +22,9 @@ function App() {
         <main className="min-h-screen bg-gray-50 pt-6">
           <SearchBar />
           <Routes>
+            <Route path="/" element={<NewsFeed />} />
             <Route
-              path="/"
+              path="/trending"
               element={
                 <>
                   <HeroGrid />
@@ -31,7 +32,6 @@ function App() {
                 </>
               }
             />
-            <Route path="/newsfeed" element={<NewsFeed />} />
             <Route path="/articles" element={<ArticlesList />} />
             <Route
               path="/search"

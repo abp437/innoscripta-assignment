@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showPreferences, hidePreferences } from "../app/preferencesSlice";
 import Overlay from "./Overlay";
 import CategoriesStep from "./CategoriesStep";
 import SourcesStep from "./SourcesStep";
+import HighlightText from "./HighlightText";
+import CloseIcon from "./icons/CloseIcon";
 
 interface Preferences {
   categories: string[];
@@ -64,11 +66,11 @@ const Preferences: React.FC = () => {
     <Overlay>
       <div className="relative px-8 py-4">
         <h2 className="text-2xl lora-bold mb-8">
-          <span className="border-b-2">Set Preferences &gt;</span>
+          <HighlightText>Set Preferences</HighlightText>
         </h2>
         {getPreferencesFromLocal() ? (
           <button className="absolute top-4 right-4 max-w-6 cursor-pointer" onClick={handleClose}>
-            <img src="https://cdn-icons-png.flaticon.com/64/2961/2961937.png" />
+            <CloseIcon />
           </button>
         ) : (
           <button

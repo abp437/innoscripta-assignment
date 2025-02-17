@@ -1,4 +1,4 @@
-import React from "react";
+import HighlightText from "./HighlightText";
 
 // Dummy Data for Categories
 const categories = [
@@ -120,8 +120,8 @@ const NewsFeed: React.FC = () => {
               <p className="text-gray-600 text-sm mb-4">{category.description}</p>
 
               {/* Read More Link */}
-              <a href={category.link} className="text-blue-600 text-sm font-medium hover:underline">
-                Read more &rarr;
+              <a href={category.link} className="text-sm font-medium">
+                <HighlightText>Read more</HighlightText>
               </a>
             </div>
           </div>

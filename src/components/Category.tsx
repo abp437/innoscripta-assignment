@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import HighlightText from "./HighlightText";
 
 // Dummy Data for Categories with Grouped Articles
 const categories = [
@@ -111,7 +112,7 @@ const Category: React.FC = () => {
             .map((category) => (
               <div key={category.id} className="mb-10">
                 <h2 className="text-3xl lora-bold text-gray-800 mb-8">
-                  <span className="border-b-2">{category.name} &gt;</span>
+                  <HighlightText>{category.name}</HighlightText>
                 </h2>
 
                 {/* Articles in the category */}
@@ -120,7 +121,7 @@ const Category: React.FC = () => {
                     <div key={index}>
                       {/* Card for the first article */}
                       {index === 0 ? (
-                        <div className="group overflow-hidden transition-shadow duration-300 border-b-1">
+                        <div className="group overflow-hidden transition-shadow duration-300 border-b-1 border-gray-300">
                           <img
                             src={article.imageUrl}
                             alt={article.headline}
@@ -131,20 +132,20 @@ const Category: React.FC = () => {
                             <p className="text-gray-600 text-sm mb-4 overflow-hidden text-ellipsis line-clamp-2">
                               {article.description}
                             </p>
-                            <a href={article.link} className="text-blue-600 text-sm font-medium hover:underline">
-                              Read more &rarr;
+                            <a href={article.link} className="text-sm font-medium">
+                              <HighlightText>Read more</HighlightText>
                             </a>
                           </div>
                         </div>
                       ) : (
                         // List item for subsequent articles
-                        <div className="text-gray-800 border-b-1 pb-4">
+                        <div className="text-gray-800 border-b-1 pb-4 border-gray-300">
                           <h3 className="lora-bold text-lg">{article.headline}</h3>
                           <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                             {article.description}
                           </p>
-                          <a href={article.link} className="text-blue-600 text-sm font-medium hover:underline">
-                            Read more &rarr;
+                          <a href={article.link} className="text-sm font-medium">
+                            <HighlightText>Read more</HighlightText>
                           </a>
                         </div>
                       )}

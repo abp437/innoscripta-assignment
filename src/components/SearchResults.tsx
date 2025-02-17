@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 
@@ -32,7 +31,7 @@ const SearchResults: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-6 space-y-4">
       {filteredArticles.map((article) => (
-        <div key={article.id} className="border-b-1 p-4 mb-4">
+        <div key={article.id} className="border-b-1 p-4 mb-4 border-gray-300">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
             <img
               className="w-full h-48 md:w-24 md:h-24 object-cover rounded-md group-hover:opacity-80"
