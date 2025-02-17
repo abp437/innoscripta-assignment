@@ -1,132 +1,134 @@
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import HighlightText from "./HighlightText";
-
-// Dummy Data for Categories
-const categories = [
-  {
-    id: 1,
-    name: "World",
-    headline: "Global Conflict Escalates Amid Tensions",
-    description:
-      "Tensions rise in global political climate. Experts debate on potential outcomes as world leaders weigh in.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 2,
-    name: "Politics",
-    headline: "New Political Reforms Shake the Nation",
-    description:
-      "The government has introduced new reforms aimed at revitalizing the economy and improving public services.",
-    imageUrl: "https://placehold.co/400x600",
-    link: "#",
-  },
-  {
-    id: 3,
-    name: "Technology",
-    headline: "AI Innovations That Could Change Our Future",
-    description:
-      "Artificial Intelligence continues to grow at a rapid pace. Here’s a look at the latest developments in AI technology.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 4,
-    name: "Business",
-    headline: "Stock Market Soars Amid Economic Growth",
-    description:
-      "The stock market has reached record highs following signs of economic growth, with analysts predicting further rise in the near future.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 5,
-    name: "Sports",
-    headline: "Championship Final: A Thrilling Victory",
-    description:
-      "The championship final left fans on the edge of their seats as the underdogs secured a dramatic victory.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 6,
-    name: "Entertainment",
-    headline: "Hollywood’s Latest Blockbuster Breaks Records",
-    description:
-      "The latest movie has become an instant hit, breaking box office records and receiving rave reviews from critics and fans alike.",
-    imageUrl: "https://placehold.co/400x600",
-    link: "#",
-  },
-  {
-    id: 7,
-    name: "Health",
-    headline: "New Medical Breakthroughs in Cancer Treatment",
-    description:
-      "Groundbreaking research is giving hope to patients, with new treatments showing incredible potential for cancer remission.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 8,
-    name: "Science",
-    headline: "Space Exploration Reaches New Heights",
-    description:
-      "The latest space missions are setting new records for humanity’s exploration of space, including the first private-funded moon landing.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 9,
-    name: "Travel",
-    headline: "Top 10 Destinations to Visit This Year",
-    description:
-      "From exotic islands to cultural cities, here are the top travel destinations for 2025 that every traveler should consider.",
-    imageUrl: "https://placehold.co/600x400",
-    link: "#",
-  },
-  {
-    id: 10,
-    name: "Lifestyle",
-    headline: "10 Habits That Will Improve Your Daily Life",
-    description: "Small lifestyle changes that can make a big difference in your physical and mental health over time.",
-    imageUrl: "https://placehold.co/400x600",
-    link: "#",
-  },
-];
+import { getCategoriesFromLocalStorage } from "../utils/localStorage";
 
 const NewsFeed: React.FC = () => {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loadingRef = useRef<boolean>(false); // Flag to track if a request is in progress
+
+  // Set to keep track of article URLs (or another unique property) for uniqueness
+  const uniqueArticles = useRef<Set<string>>(new Set());
+
+  // Function to fetch articles based on category
+  const fetchArticles = async (pageNumber: number) => {
+    const categories = getCategoriesFromLocalStorage();
+
+    // Create a promise for each category fetch
+    const fetchPromises = categories.map((category) =>
+      axios.get("https://newsapi.org/v2/top-headlines", {
+        params: {
+          apiKey: import.meta.env.VITE_NEWS_API_KEY,
+          country: "us",
+          category,
+          pageSize: 10,
+          page: pageNumber,
+        },
+      }),
+    );
+
+    try {
+      setLoading(true);
+      loadingRef.current = true; // Mark request as in progress
+
+      // Wait for all category fetch promises to resolve
+      const responses = await Promise.all(fetchPromises);
+
+      // Extract articles from responses and combine them
+      const allArticles = responses.flatMap((response) => response.data.articles);
+
+      // Filter out duplicates based on URL (or any unique property like 'id')
+      const newArticles = allArticles.filter((article) => {
+        if (!uniqueArticles.current.has(article.url)) {
+          uniqueArticles.current.add(article.url); // Mark the URL as seen
+          return true;
+        }
+        return false; // Skip duplicates
+      });
+
+      // Randomize articles to ensure randomness each time
+      const randomizedArticles = newArticles.sort(() => Math.random() - 0.5);
+
+      // Update the state with the new articles
+      setArticles((prevArticles) => [...prevArticles, ...randomizedArticles]);
+      setHasMore(randomizedArticles.length > 0); // Stop infinite scroll if no more articles
+    } catch (error) {
+      console.error("Error fetching articles", error);
+    } finally {
+      setLoading(false);
+      loadingRef.current = false; // Mark request as completed
+    }
+  };
+
+  // Infinite Scroll Logic
+  useEffect(() => {
+    if (loadingRef.current || !hasMore) return; // Prevent multiple requests for the same page
+    fetchArticles(page);
+  }, [page]);
+
+  // IntersectionObserver for infinite scroll
+  useEffect(() => {
+    const loadMore = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && !loading && hasMore) {
+        setPage((prev) => prev + 1);
+      }
+    };
+
+    observer.current = new IntersectionObserver(loadMore, {
+      rootMargin: "100px 0px 90px 0px", // Adjust for footer height
+    });
+
+    const lastArticle = document.querySelector("#last-article");
+    if (lastArticle) {
+      observer.current.observe(lastArticle);
+    }
+
+    return () => {
+      if (observer.current && lastArticle) {
+        observer.current.unobserve(lastArticle);
+      }
+    };
+  }, [loading, hasMore]);
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-6">News Feed with infinite Scroll</h1>
-
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {categories.map((category) => (
+        {articles.map((article, index) => (
           <div
-            key={category.id}
-            className={`group bg-white shadow-lg overflow-hidden transition-shadow duration-300 ${category.id % 2 === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
+            key={`${article.url}-${article.publishedAt}`} // Combining URL and published date to ensure uniqueness
+            className={`group bg-white shadow-lg overflow-hidden transition-shadow duration-300 ${index % 2 === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
+            id={index === articles.length - 1 ? "last-article" : ""}
           >
             {/* Article Image */}
             <img
-              src={category.imageUrl}
-              alt={category.headline}
+              src={article.urlToImage}
+              alt={article.title}
               className="w-full h-48 sm:h-64 object-cover group-hover:opacity-80 transition-opacity duration-300"
             />
 
             <div className="p-6">
               {/* Category Title */}
-              <h2 className="text-2xl font-semibold text-gray-800 mb-2">{category.headline}</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-2">{article.title}</h2>
 
               {/* Description */}
-              <p className="text-gray-600 text-sm mb-4">{category.description}</p>
+              <p className="text-gray-600 text-sm mb-4">{article.description}</p>
 
               {/* Read More Link */}
-              <a href={category.link} className="text-sm font-medium" target="_blank" rel="noopener noreferrer">
+              <a href={article.url} className="lora-bold" target="_blank" rel="noopener noreferrer">
                 <HighlightText>Read more</HighlightText>
               </a>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Loading Spinner */}
+      {loading && <div className="text-center mt-4">Loading...</div>}
     </div>
   );
 };
