@@ -1,66 +1,58 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setSearchQuery } from "../app/searchSlice";
+import { setSearchResults } from "../app/searchResultsSlice"; // Import the setSearchResults action
 import SearchIcon from "./icons/SearchIcon";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
-  const [isReset, setIsReset] = useState(false);
   const dispatch = useDispatch();
 
-  const getSearchNews = (date = "2025-02-11") => {
-    axios({
-      method: "get",
-      url: "https://newsapi.org/v2/everything",
-      params: {
-        q: query, // The search query, e.g., "trump"
-        from: date, // The dynamic date, e.g., "2025-02-11"
-        sortBy: "popularity",
-        apiKey: import.meta.env.VITE_NEWS_API_KEY,
-      },
-    }).then((resp) => {
-      console.log(resp.data);
-    });
+  // Function to format the date for yesterday
+  const formatDateToYesterday = () => {
+    const today = new Date();
+    today.setDate(today.getDate() - 1);
+    return today.toISOString().split("T")[0]; // Returns date in YYYY-MM-DD format
   };
 
-  const getTopHeadlines = () => {
-    axios({
-      method: "get",
-      url: "https://newsapi.org/v2/top-headlines?country=us",
-      params: {
-        sortBy: "popularity",
-        apiKey: import.meta.env.VITE_NEWS_API_KEY,
-      },
-    }).then((resp) => {
-      console.log(resp.data);
-    });
+  // Function to fetch news
+  const fetchNews = (searchQuery: string = "") => {
+    const params = {
+      apiKey: import.meta.env.VITE_NEWS_API_KEY,
+      sortBy: "popularity",
+    };
+
+    if (searchQuery) {
+      // Search specific query news
+      axios
+        .get("https://newsapi.org/v2/everything", {
+          params: { ...params, q: searchQuery, from: formatDateToYesterday() },
+        })
+        .then((resp) => dispatch(setSearchResults(resp.data.articles)));
+    } else {
+      // Fetch top headlines if no query
+      axios
+        .get("https://newsapi.org/v2/top-headlines?country=us", { params })
+        .then((resp) => dispatch(setSearchResults(resp.data.articles)));
+    }
   };
 
   const submitRequest = () => {
-    dispatch(setSearchQuery(query));
-    getSearchNews();
+    if (query.trim()) {
+      dispatch(setSearchQuery(query)); // Dispatch query to Redux
+      fetchNews(query); // Fetch news for the query
+    } else {
+      fetchNews(); // Fetch top headlines if search query is blank
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isSearchBlank: boolean = e.target.value.length === 0;
     setQuery(e.target.value);
-    setIsReset(isSearchBlank);
   };
 
-  useEffect(() => {
-    if (isReset) {
-      console.log("Search is made blank reset to initial results set");
-      submitRequest();
-    }
-  }, [isReset]);
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const isEnterPressed: boolean = e.key === "Enter";
-
-    if (isEnterPressed) {
-      submitRequest();
-    }
+    if (e.key === "Enter") submitRequest(); // Trigger search on Enter key press
   };
 
   return (
@@ -77,7 +69,7 @@ const SearchBar: React.FC = () => {
         <button
           className="absolute p-2 top-0 right-0 bottom-0 cursor-pointer border-l-1"
           aria-label="Search"
-          onClick={submitRequest}
+          onClick={submitRequest} // Trigger search when the button is clicked
         >
           <SearchIcon />
         </button>

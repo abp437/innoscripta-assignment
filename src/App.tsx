@@ -20,7 +20,6 @@ function App() {
         <Header />
         <SubHeader />
         <main className="min-h-screen bg-gray-50 pt-6">
-          <SearchBar />
           <Routes>
             <Route path="/" element={<NewsFeed />} />
             <Route
@@ -37,6 +36,7 @@ function App() {
               path="/search"
               element={
                 <>
+                  <SearchBar />
                   <Filter />
                   <SearchResults />
                 </>
