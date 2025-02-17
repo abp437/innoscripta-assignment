@@ -22,7 +22,7 @@ const HeroGrid: React.FC = () => {
     // Async function to get top headlines
     const getTopHeadlines = async () => {
       try {
-        const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us", {
+        const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&category=general", {
           params: {
             sortBy: "popularity",
             apiKey: import.meta.env.VITE_NEWS_API_KEY,
