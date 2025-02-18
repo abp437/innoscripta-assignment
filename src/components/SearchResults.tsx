@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { RootState } from "../app/store";
-import { setSearchResults } from "../app/searchResultsSlice"; // Import the action
+import { setSearchResults } from "../app/searchResultsSlice";
 import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";

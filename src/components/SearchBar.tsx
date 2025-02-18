@@ -5,94 +5,123 @@ import { setSearchQuery } from "../app/searchSlice";
 import { setSearchResults } from "../app/searchResultsSlice"; // Import the setSearchResults action
 import SearchIcon from "./icons/SearchIcon";
 import ArticleInterface from "../interfaces/ArticleInterface";
+import { shuffleArray } from "../utils/array";
 import { formatDateToYesterday } from "../utils/date";
+import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
-  // Function to fetch news
-  const searchNewsOrg = (searchQuery: string = "") => {
+  // Combine results from multiple sources
+  const combineResults = (articles: ArticleInterface[], newArticles: ArticleInterface[]) => {
+    return [...articles, ...newArticles];
+  };
+
+  // Function to search news from NewsOrg API
+  const searchNewsOrg = async (searchQuery: string = "") => {
     const params = {
       apiKey: import.meta.env.VITE_NEWS_API_KEY,
       sortBy: "popularity",
     };
+    let results: ArticleInterface[] = [];
 
-    if (searchQuery) {
-      // Search specific query news
-      axios
-        .get("https://newsapi.org/v2/everything", {
+    try {
+      if (searchQuery) {
+        const resp = await axios.get("https://newsapi.org/v2/everything", {
           params: { ...params, q: searchQuery, from: formatDateToYesterday() },
-        })
-        .then((resp) => dispatch(setSearchResults(resp.data.articles)));
-    } else {
-      // Fetch top headlines if no query
-      axios
-        .get("https://newsapi.org/v2/top-headlines?country=us", { params })
-        .then((resp) => dispatch(setSearchResults(resp.data.articles)));
+        });
+        results = resp.data.articles.map(convertNewsOrgResponse);
+      } else {
+        const resp = await axios.get("https://newsapi.org/v2/top-headlines?country=us", { params });
+        results = resp.data.articles.map(convertNewsOrgResponse);
+      }
+    } catch (error) {
+      console.error("Error fetching NewsOrg data", error);
     }
+
+    return results;
   };
 
-  const searchNYTimes = (searchQuery: string = "") => {
+  const searchNYTimes = async (searchQuery: string = "") => {
     const params = {
       "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
     };
+    let results: ArticleInterface[] = [];
 
-    if (searchQuery) {
-      // Search specific query news
-      axios
-        .get("https://api.nytimes.com/svc/search/v2/articlesearch.json", { params: { ...params, q: searchQuery } })
-        .then((resp) => {
-          const articles: ArticleInterface[] = resp.data.response.docs.map((doc: any) => ({
-            title: doc?.headlines?.main || doc?.snippet || "Hypethetical Question",
-            description: doc?.lead_paragraph || "Hypethetical Question",
-            url: doc.web_url || "Hypethetical Question",
-            urlToImage: `https://static01.nyt.com/${doc?.multimedia?.[0]?.url}`,
-            source: "New York Times",
-          }));
-          dispatch(setSearchResults(articles));
+    try {
+      if (searchQuery) {
+        const resp = await axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json", {
+          params: { ...params, q: searchQuery },
         });
-    } else {
-      // Fetch top headlines if no search query
-      axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params }).then((resp) => {
-        const articles: ArticleInterface[] = resp.data.results.map((doc: any) => ({
-          title: doc.title,
-          description: doc.abstract,
-          url: doc.url,
-          urlToImage: doc.multimedia?.[0]?.url || "", // Fallback in case of no image
-          source: "New York Times",
-        }));
-        dispatch(setSearchResults(articles));
-      });
+        results = resp.data.response.docs.map(convertNYTimesResponse);
+      } else {
+        const resp = await axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params });
+        results = resp.data.results.map(convertNYTimesResponse);
+      }
+    } catch (error) {
+      console.error("Error fetching NYTimes data", error);
     }
+
+    return results;
   };
 
-  const searchGuardian = (searchQuery: string) => {
+  // Function to search news from Guardian API
+  const searchGuardian = async (searchQuery: string = "") => {
     const params = {
       "api-key": import.meta.env.VITE_THE_GUARDIAN_API_KEY,
     };
+    let results: ArticleInterface[] = [];
 
-    axios.get("https://content.guardianapis.com/search", { params: { ...params, q: searchQuery } }).then((resp) => {
-      const articles: ArticleInterface[] = resp.data.response.results.map((doc: any) => ({
-        title: doc.webTitle,
-        description: `${doc.sectionName} - ${doc.webTitle}`,
-        url: doc.webUrl,
-        urlToImage: null, // Fallback in case of no image
-        source: "The Guardian",
-      }));
-      dispatch(setSearchResults(articles));
-    });
+    try {
+      const resp = await axios.get("https://content.guardianapis.com/search", {
+        params: { ...params, q: searchQuery },
+      });
+      results = resp.data.response.results.map(convertGuardianResponse);
+    } catch (error) {
+      console.error("Error fetching Guardian data", error);
+    }
+
+    return results;
   };
 
-  const submitRequest = () => {
+  // Submit request combining and randomizing results from all sources
+  const submitRequest = async () => {
     if (query.trim()) {
       dispatch(setSearchQuery(query)); // Dispatch query to Redux
-      searchNewsOrg(query); // Fetch news for the query
-      searchNYTimes(query);
-      searchGuardian(query);
+
+      // Combine results from all sources
+      let allResults: ArticleInterface[] = [];
+
+      // Fetch results from each source
+      const newsOrgResults = await searchNewsOrg(query);
+      const nyTimesResults = await searchNYTimes(query);
+      const guardianResults = await searchGuardian(query);
+
+      // Combine all results
+      allResults = combineResults(newsOrgResults, nyTimesResults);
+      allResults = combineResults(allResults, guardianResults);
+
+      // Randomize the order of the results
+      allResults = shuffleArray(allResults);
+
+      // Dispatch combined and shuffled results to Redux
+      dispatch(setSearchResults(allResults));
     } else {
-      searchNewsOrg(); // Fetch top headlines if search query is blank
-      searchNYTimes();
+      // If no query, fetch and combine top headlines from NewsOrg, NYTimes, and Guardian
+      const newsOrgResults = await searchNewsOrg();
+      const nyTimesResults = await searchNYTimes();
+      const guardianResults = await searchGuardian(); // Include Guardian results
+
+      // Combine all results
+      let allResults = combineResults(newsOrgResults, nyTimesResults);
+      allResults = combineResults(allResults, guardianResults);
+
+      // Randomize the order of the results
+      allResults = shuffleArray(allResults);
+
+      // Dispatch combined and shuffled results to Redux
+      dispatch(setSearchResults(allResults));
     }
   };
 
@@ -101,7 +130,7 @@ const SearchBar: React.FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") submitRequest(); // Trigger search on Enter key press
+    if (e.key === "Enter") submitRequest();
   };
 
   return (
