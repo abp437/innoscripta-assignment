@@ -90,6 +90,8 @@ const SearchResults: React.FC = () => {
       dispatch(setSearchResults(allResults));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSourceFilter("all"));
+      dispatch(setCategoryFilter("all"));
+      dispatch(setOrderByFilter("desc"));
       setLoading(false);
     };
 

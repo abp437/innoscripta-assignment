@@ -51,7 +51,7 @@ const HeroGrid: React.FC = () => {
 
   // If there's an error, show it
   if (error) {
-    return <div className="text-red-600">{error}</div>;
+    return <div className="text-center my-10 text-red-600">{error}</div>;
   }
 
   return (

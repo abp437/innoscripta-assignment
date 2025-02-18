@@ -108,6 +108,8 @@ const SearchBar: React.FC = () => {
 
       // Dispatch combined and shuffled results to Redux
       dispatch(setSourceFilter("all"));
+      dispatch(setCategoryFilter("all"));
+      dispatch(setOrderByFilter("desc"));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     } else {
@@ -125,6 +127,8 @@ const SearchBar: React.FC = () => {
 
       // Dispatch combined and shuffled results to Redux
       dispatch(setSourceFilter("all"));
+      dispatch(setCategoryFilter("all"));
+      dispatch(setOrderByFilter("desc"));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     }

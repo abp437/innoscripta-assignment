@@ -5,3 +5,8 @@ export const formatDateToYesterday = () => {
   // Returns date in YYYY-MM-DD format
   return today.toISOString().split("T")[0];
 };
+
+export const getPublicationDate = (dateString: string) => {
+  // Extract the date portion (YYYY-MM-DD) from the full ISO string
+  return dateString.split("T")[0];
+};

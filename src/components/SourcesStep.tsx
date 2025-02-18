@@ -8,9 +8,9 @@ interface SourcesStepProps {
 
 const SourcesStep: React.FC<SourcesStepProps> = ({ sources, setSources, onSubmit }) => {
   const options = [
-    { value: "NY Times", label: "NY Times" },
-    { value: "Guardian", label: "Guardian" },
-    { value: "News", label: "News" },
+    { value: "The New York Times", label: "The New York Times" },
+    { value: "The Guardian", label: "The Guardian" },
+    { value: "News Org", label: "News Org" },
   ];
 
   const handleChange = (selectedOptions: any) => {
