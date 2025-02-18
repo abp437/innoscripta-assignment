@@ -1,50 +1,62 @@
-# React + TypeScript + Vite
+# News Aggregator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+The **News Aggregator App** fetches news from three prominent sources:
+- **NewsAPI**
+- **New York Times**
+- **The Guardian**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application provides users with an easy-to-use platform to view the latest news from a variety of trusted sources.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The project is built with the following technologies:
+- **React** (JavaScript library for building user interfaces)
+- **TypeScript** (Strongly-typed programming language for JavaScript)
+- **Vite** (Next-generation, fast build tool)
+- **Redux Toolkit** (State management for React applications)
 
-- Configure the top-level `parserOptions` property like this:
+## Prerequisites
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Before you begin, make sure you have the following installed on your system:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
+- **Node.js 20.x**: [Install Node.js](https://nodejs.org/)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Setup Steps
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Docker Setup
+
+1. Create a `.env.production.local` file in the root directory.
+2. Copy the contents from the `.env.example` file into `.env.production.local`.
+3. Replace the API keys in `.env.production.local` with the appropriate values (which are supplied privately).
+4. Run the following command to give execute permissions to the `start.sh` script:
+    ```bash
+    chmod 777 start.sh
+    ```
+5. To run the project using Docker, execute the following command:
+    ```bash
+    ./start.sh
+    ```
+6. In the browser, open up `http://localhost:3000/` to view the project.
+
+### Manual Setup
+
+1. Create a `.env.development.local` file in the root directory.
+2. Copy the contents from the `.env.example` file into `.env.development.local`.
+3. Replace the API keys in `.env.development.local` with the appropriate values (which are supplied privately).
+4. Install the necessary dependencies:
+    ```bash
+    npm install
+    ```
+5. To run the project in development mode, execute the following command:
+    ```bash
+    npm run dev
+    ```
+6. In the browser, open up `http://localhost:5173/` to view the project.
+
+## Additional Notes
+
+- **For Docker setup**, make sure Docker is running before executing the `start.sh` script.
+- **For the manual setup**, ensure that Node.js 20.x is installed and running.
