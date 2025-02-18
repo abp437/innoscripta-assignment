@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice"; // Import the action
-import HighlightText from "./HighlightText";
 import NewsIcon from "./icons/NewsIcon";
+import ReadMoreLink from "./ReadMoreLink";
+import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
 
 interface Article {
   title: string;
@@ -43,16 +44,7 @@ const SearchResults: React.FC = () => {
     return (
       <div className="container mx-auto px-4 py-6 space-y-4">
         {[...Array(5)].map((_, index) => (
-          <div key={index} className="border-b-1 p-4 mb-4 border-gray-300 animate-pulse">
-            <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
-              <div className="w-full h-48 md:w-24 md:h-24 bg-gray-300"></div>
-              <div className="flex-1 space-y-4">
-                <div className="h-6 bg-gray-300 w-3/4"></div>
-                <div className="h-4 bg-gray-300 w-1/2"></div>
-                <div className="h-4 bg-gray-300 w-1/3"></div>
-              </div>
-            </div>
-          </div>
+          <SearchResultsSkeleton key={index} />
         ))}
       </div>
     );
@@ -81,9 +73,7 @@ const SearchResults: React.FC = () => {
             <div className="flex-1">
               <h3 className="text-xl md:text-2xl font-semibold">{article.title}</h3>
               <p className="text-md mb-4">{article.description}</p>
-              <a href={article.url} className="lora-bold" target="_blank" rel="noopener noreferrer">
-                <HighlightText>Read more</HighlightText>
-              </a>
+              <ReadMoreLink url={article.url} />
             </div>
           </div>
         </div>

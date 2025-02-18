@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HighlightText from "./HighlightText";
+import ReadMoreLink from "./ReadMoreLink";
+import HeroMainSkeleton from "./skeleton_loaders/HeroMainSkeleton";
+import HeroSubSectionSkeleton from "./skeleton_loaders/HeroSubSectionSkeleton";
 
 interface Article {
   title: string;
@@ -58,23 +61,6 @@ const HeroGrid: React.FC = () => {
     return <div className="text-red-600">{error}</div>;
   }
 
-  // Skeleton loader component
-  const SkeletonLoader = () => (
-    <div className="animate-pulse">
-      <div className="w-full h-64 bg-gray-300 mb-4"></div>
-      <div className="w-full h-6 bg-gray-300 mb-2"></div>
-      <div className="w-3/4 h-6 bg-gray-300 mb-4"></div>
-    </div>
-  );
-
-  // SmallSkeleton loader component
-  const SmallSkeletonLoader = () => (
-    <div className="animate-pulse">
-      <div className="w-full h-6 bg-gray-300 mb-2"></div>
-      <div className="w-3/4 h-6 bg-gray-300 mb-4"></div>
-    </div>
-  );
-
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Grid with 3 columns */}
@@ -86,7 +72,7 @@ const HeroGrid: React.FC = () => {
             {isLoading
               ? Array(2)
                   .fill(0)
-                  .map((_, index) => <SkeletonLoader key={index} />)
+                  .map((_, index) => <HeroMainSkeleton key={index} />)
               : articles
                   .filter((article) => article.urlToImage) // Filter articles where urlToImage is not null or empty
                   .map(({ url, urlToImage, title, description }) => (
@@ -101,9 +87,7 @@ const HeroGrid: React.FC = () => {
                         <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                           {description}
                         </p>
-                        <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold mb-4">
-                          <HighlightText>Read more</HighlightText>
-                        </a>
+                        <ReadMoreLink url={url} extraClasses="block mb-4" />
                       </div>
                     </div>
                   ))}
@@ -119,7 +103,7 @@ const HeroGrid: React.FC = () => {
             {isLoading
               ? Array(3)
                   .fill(0)
-                  .map((_, index) => <SmallSkeletonLoader key={index} />)
+                  .map((_, index) => <HeroSubSectionSkeleton key={index} />)
               : latestUpdates.map(({ url, title, description }) => (
                   <div key={url} className="group overflow-hidden">
                     <div className="border-b-1 border-gray-300">
@@ -127,9 +111,7 @@ const HeroGrid: React.FC = () => {
                       <p className="text-sm text-gray-600 mb-2 overflow-hidden text-ellipsis line-clamp-2">
                         {description}
                       </p>
-                      <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold mb-4">
-                        <HighlightText>Read more</HighlightText>
-                      </a>
+                      <ReadMoreLink url={url} extraClasses="block mb-4" />
                     </div>
                   </div>
                 ))}
@@ -145,14 +127,12 @@ const HeroGrid: React.FC = () => {
         {isLoading
           ? Array(3)
               .fill(0)
-              .map((_, index) => <SmallSkeletonLoader key={index} />)
+              .map((_, index) => <HeroSubSectionSkeleton key={index} />)
           : trendingArticles.map(({ url, title, description }) => (
               <div key={url} className="group overflow-hidden">
                 <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
                 <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2 mb-2">{description}</p>
-                <a href={url} target="_blank" rel="noopener noreferrer" className="block lora-bold">
-                  <HighlightText>Read more</HighlightText>
-                </a>
+                <ReadMoreLink url={url} extraClasses="block" />
               </div>
             ))}
       </div>

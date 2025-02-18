@@ -3,6 +3,8 @@ import axios from "axios";
 import HighlightText from "./HighlightText";
 import { getCategoriesFromLocalStorage } from "../utils/localStorage";
 import NewsIcon from "./icons/NewsIcon";
+import ReadMoreLink from "./ReadMoreLink";
+import CategorySectionSkeleton from "./skeleton_loaders/CategorySectionSkeleton";
 
 const Category: React.FC = () => {
   const [articles, setArticles] = useState<{ [key: string]: any[] }>({});
@@ -91,21 +93,7 @@ const Category: React.FC = () => {
 
               {/* Skeleton loader or articles */}
               {loading[category] ? (
-                <div>
-                  {/* Skeleton for title */}
-                  <div className="h-8 bg-gray-300 rounded w-3/4 mb-4"></div>
-
-                  {/* Skeleton for articles */}
-                  <div className="space-y-4">
-                    {[...Array(3)].map((_, i) => (
-                      <div key={i} className="space-y-3">
-                        <div className="h-6 bg-gray-300 rounded w-1/2"></div>
-                        <div className="h-4 bg-gray-300 rounded w-full"></div>
-                        <div className="h-3 bg-gray-300 rounded w-1/4"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <CategorySectionSkeleton />
               ) : error[category] ? (
                 <div className="text-red-500 text-sm">{error[category]}</div> // Show error message
               ) : (
@@ -132,9 +120,7 @@ const Category: React.FC = () => {
                       <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
                         {article.description}
                       </p>
-                      <a href={article.url} className="text-sm lora-bold" target="_blank" rel="noopener noreferrer">
-                        <HighlightText>Read more</HighlightText>
-                      </a>
+                      <ReadMoreLink url={article.url} extraClasses="text-sm" />
                     </div>
                   ))}
                 </div>

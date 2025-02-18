@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import HighlightText from "./HighlightText";
 import { getCategoriesFromLocalStorage } from "../utils/localStorage";
+import ReadMoreLink from "./ReadMoreLink";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -117,11 +117,7 @@ const NewsFeed: React.FC = () => {
 
               {/* Description */}
               <p className="text-gray-600 text-sm mb-4">{article.description}</p>
-
-              {/* Read More Link */}
-              <a href={article.url} className="lora-bold" target="_blank" rel="noopener noreferrer">
-                <HighlightText>Read more</HighlightText>
-              </a>
+              <ReadMoreLink url={article.url} />
             </div>
           </div>
         ))}
