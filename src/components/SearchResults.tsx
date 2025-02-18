@@ -6,23 +6,16 @@ import { setSearchResults } from "../app/searchResultsSlice"; // Import the acti
 import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
-
-interface Article {
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  source: string;
-}
+import ArticleInterface from "../interfaces/ArticleInterface";
 
 const SearchResults: React.FC = () => {
   const dispatch = useDispatch();
   const searchQuery = useSelector((state: RootState) => state.search.query); // Get search query from Redux
   const searchResults = useSelector((state: RootState) => state.searchResults.articles); // Get articles from Redux
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(false); // Add a loading state
 
   useEffect(() => {
-    const getTopHeadlines = () => {
+    const getTopNewsOrgHeadlines = () => {
       axios({
         method: "get",
         url: "https://newsapi.org/v2/top-headlines?country=us",
@@ -36,7 +29,26 @@ const SearchResults: React.FC = () => {
       });
     };
 
-    getTopHeadlines();
+    getTopNewsOrgHeadlines();
+
+    const getTopNYTimesHeadlines = () => {
+      const params = {
+        "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
+      };
+
+      axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params }).then((resp) => {
+        const articles: ArticleInterface[] = resp.data.results.map((doc: any) => ({
+          title: doc.title,
+          description: doc.abstract,
+          url: doc.url,
+          urlToImage: doc.multimedia?.[0]?.url || "", // Fallback in case of no image
+          source: "New York Times",
+        }));
+        dispatch(setSearchResults(articles));
+      });
+    };
+
+    getTopNYTimesHeadlines();
   }, [dispatch]);
 
   if (loading) {
@@ -56,7 +68,7 @@ const SearchResults: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-4">
-      {searchResults.map((article: Article) => (
+      {searchResults.map((article: ArticleInterface) => (
         <div key={article.url} className="border-b-1 p-4 mb-4 border-gray-300">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
             {article.urlToImage ? (

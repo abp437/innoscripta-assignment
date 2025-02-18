@@ -4,6 +4,7 @@ import axios from "axios";
 import { setSearchQuery } from "../app/searchSlice";
 import { setSearchResults } from "../app/searchResultsSlice"; // Import the setSearchResults action
 import SearchIcon from "./icons/SearchIcon";
+import ArticleInterface from "../interfaces/ArticleInterface";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -17,7 +18,7 @@ const SearchBar: React.FC = () => {
   };
 
   // Function to fetch news
-  const fetchNews = (searchQuery: string = "") => {
+  const searchNewsOrg = (searchQuery: string = "") => {
     const params = {
       apiKey: import.meta.env.VITE_NEWS_API_KEY,
       sortBy: "popularity",
@@ -38,12 +39,48 @@ const SearchBar: React.FC = () => {
     }
   };
 
+  const searchNYTimes = (searchQuery: string = "") => {
+    const params = {
+      "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
+    };
+
+    if (searchQuery) {
+      // Search specific query news
+      axios
+        .get("https://api.nytimes.com/svc/search/v2/articlesearch.json", { params: { ...params, q: searchQuery } })
+        .then((resp) => {
+          const articles: ArticleInterface[] = resp.data.response.docs.map((doc: any) => ({
+            title: doc?.headlines?.main || doc?.snippet || "Hypethetical Question",
+            description: doc?.lead_paragraph || "Hypethetical Question",
+            url: doc.web_url || "Hypethetical Question",
+            urlToImage: `https://static01.nyt.com/${doc?.multimedia?.[0]?.url}`,
+            source: "New York Times",
+          }));
+          dispatch(setSearchResults(articles));
+        });
+    } else {
+      // Fetch top headlines if no search query
+      axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params }).then((resp) => {
+        const articles: ArticleInterface[] = resp.data.results.map((doc: any) => ({
+          title: doc.title,
+          description: doc.abstract,
+          url: doc.url,
+          urlToImage: doc.multimedia?.[0]?.url || "", // Fallback in case of no image
+          source: "New York Times",
+        }));
+        dispatch(setSearchResults(articles));
+      });
+    }
+  };
+
   const submitRequest = () => {
     if (query.trim()) {
       dispatch(setSearchQuery(query)); // Dispatch query to Redux
-      fetchNews(query); // Fetch news for the query
+      searchNewsOrg(query); // Fetch news for the query
+      searchNYTimes(query);
     } else {
-      fetchNews(); // Fetch top headlines if search query is blank
+      searchNewsOrg(); // Fetch top headlines if search query is blank
+      searchNYTimes();
     }
   };
 

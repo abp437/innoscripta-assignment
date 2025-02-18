@@ -1,15 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Article {
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  source: string;
-}
+import ArticleInterface from "../interfaces/ArticleInterface";
 
 interface SearchResultsState {
-  articles: Article[];
+  articles: ArticleInterface[];
 }
 
 const initialState: SearchResultsState = {
@@ -20,7 +13,7 @@ const searchResultsSlice = createSlice({
   name: "searchResults",
   initialState,
   reducers: {
-    setSearchResults(state, action: PayloadAction<Article[]>) {
+    setSearchResults(state, action: PayloadAction<ArticleInterface[]>) {
       state.articles = action.payload;
     },
   },

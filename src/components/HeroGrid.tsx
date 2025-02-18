@@ -4,20 +4,13 @@ import HighlightText from "./HighlightText";
 import ReadMoreLink from "./ReadMoreLink";
 import HeroMainSkeleton from "./skeleton_loaders/HeroMainSkeleton";
 import HeroSubSectionSkeleton from "./skeleton_loaders/HeroSubSectionSkeleton";
-
-interface Article {
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  source: { name: string };
-}
+import ArticleInterface from "../interfaces/ArticleInterface";
 
 const HeroGrid: React.FC = () => {
   // Manage the state with the correct Article type
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [trendingArticles, setTrendingArticles] = useState<Article[]>([]);
-  const [latestUpdates, setLatestUpdates] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<ArticleInterface[]>([]);
+  const [trendingArticles, setTrendingArticles] = useState<ArticleInterface[]>([]);
+  const [latestUpdates, setLatestUpdates] = useState<ArticleInterface[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -33,7 +26,7 @@ const HeroGrid: React.FC = () => {
           },
         });
 
-        const topHeadlines: Article[] = response.data.articles;
+        const topHeadlines: ArticleInterface[] = response.data.articles;
 
         // Get the first two articles that have a valid urlToImage
         const hero = topHeadlines.filter((article) => article.urlToImage).slice(0, 2);

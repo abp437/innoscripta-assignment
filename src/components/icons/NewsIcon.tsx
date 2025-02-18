@@ -1,4 +1,4 @@
-import IconProps from "./IconProps";
+import IconProps from "../../interfaces/IconPropsInterface";
 
 const NewsIcon: React.FC<IconProps> = ({ extraClasses = "", width = 24, height = 24 }) => (
   <svg
