@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setSearchQuery } from "../app/searchSlice";
 import { setOriginalArticles, setSearchResults } from "../app/searchResultsSlice";
+import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 import SearchIcon from "./icons/SearchIcon";
 import ArticleInterface from "../interfaces/ArticleInterface";
 import { shuffleArray } from "../utils/array";
@@ -106,6 +107,7 @@ const SearchBar: React.FC = () => {
       allResults = shuffleArray(allResults);
 
       // Dispatch combined and shuffled results to Redux
+      dispatch(setSourceFilter("all"));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     } else {
@@ -122,6 +124,7 @@ const SearchBar: React.FC = () => {
       allResults = shuffleArray(allResults);
 
       // Dispatch combined and shuffled results to Redux
+      dispatch(setSourceFilter("all"));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     }

@@ -9,6 +9,7 @@ import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
 import { shuffleArray } from "../utils/array";
 import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
+import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 
 const combineResults = (articles: ArticleInterface[], newArticles: ArticleInterface[]) => {
   return [...articles, ...newArticles];
@@ -88,6 +89,7 @@ const SearchResults: React.FC = () => {
       // Dispatch combined and shuffled results to Redux
       dispatch(setSearchResults(allResults));
       dispatch(setOriginalArticles(allResults));
+      dispatch(setSourceFilter("all"));
       setLoading(false);
     };
 

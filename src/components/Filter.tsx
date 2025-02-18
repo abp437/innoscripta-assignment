@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice";
+import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 
 const Filter: React.FC = () => {
   const dispatch = useDispatch();
   const originalArticles = useSelector((state: RootState) => state.searchResults.originalArticles);
-  const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const { sourceFilter, category, orderBy } = useSelector((state: RootState) => state.filters);
 
   // Filter articles by source
   const filterBySource = (source: string) => {
@@ -26,14 +26,14 @@ const Filter: React.FC = () => {
         className="border border-gray-300 px-4 py-2"
         value={sourceFilter}
         onChange={(e) => {
-          setSourceFilter(e.target.value);
+          dispatch(setSourceFilter(e.target.value));
           filterBySource(e.target.value);
         }}
       >
         <option value="all">All Sources</option>
-        <option value="New York Times">New York Times</option>
+        <option value="The New York Times">The New York Times</option>
         <option value="The Guardian">The Guardian</option>
-        <option value="news_org">NewsOrg</option>
+        <option value="News Org">News Org</option>
       </select>
     </div>
   );

@@ -5,7 +5,7 @@ export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
   description: article.description || "No description available",
   url: article.url,
   urlToImage: article.urlToImage || null,
-  source: "NewsOrg",
+  source: "News Org",
 });
 
 export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
@@ -17,7 +17,7 @@ export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
       ? doc.multimedia[2].url
       : `https://static01.nyt.com/${doc.multimedia[0].url}`
     : null,
-  source: "New York Times",
+  source: "The New York Times",
 });
 
 export const convertGuardianResponse = (doc: any): ArticleInterface => ({
