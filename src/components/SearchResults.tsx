@@ -7,44 +7,90 @@ import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
+import { shuffleArray } from "../utils/array";
+import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
+
+const combineResults = (articles: ArticleInterface[], newArticles: ArticleInterface[]) => {
+  return [...articles, ...newArticles];
+};
+
+const getNewsOrgHeadlines = async () => {
+  const params = {
+    apiKey: import.meta.env.VITE_NEWS_API_KEY,
+    sortBy: "popularity",
+  };
+  let results: ArticleInterface[] = [];
+
+  try {
+    const resp = await axios.get("https://newsapi.org/v2/top-headlines?country=us", { params });
+    results = resp.data.articles.map(convertNewsOrgResponse); // Assume convertNewsOrgResponse maps the data correctly
+  } catch (error) {
+    console.error("Error fetching NewsOrg data", error);
+  }
+
+  return results;
+};
+
+const getNyTimesHeadlines = async () => {
+  const params = {
+    "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
+  };
+  let results: ArticleInterface[] = [];
+
+  try {
+    const resp = await axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params });
+    results = resp.data.results.map(convertNYTimesResponse); // Assume convertNYTimesResponse maps the data correctly
+  } catch (error) {
+    console.error("Error fetching NYTimes data", error);
+  }
+
+  return results;
+};
+
+const getGuardianHeadlines = async () => {
+  const params = {
+    "api-key": import.meta.env.VITE_THE_GUARDIAN_API_KEY,
+  };
+  let results: ArticleInterface[] = [];
+
+  try {
+    const resp = await axios.get("https://content.guardianapis.com/search", { params });
+    results = resp.data.response.results.map(convertGuardianResponse); // Assume convertGuardianResponse maps the data correctly
+  } catch (error) {
+    console.error("Error fetching Guardian data", error);
+  }
+
+  return results;
+};
 
 const SearchResults: React.FC = () => {
   const dispatch = useDispatch();
-  const searchQuery = useSelector((state: RootState) => state.search.query); // Get search query from Redux
-  const searchResults = useSelector((state: RootState) => state.searchResults.articles); // Get articles from Redux
-  const [loading, setLoading] = useState(false); // Add a loading state
+  const searchQuery = useSelector((state: RootState) => state.search.query);
+  const searchResults = useSelector((state: RootState) => state.searchResults.articles);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const getTopNewsOrgHeadlines = () => {
-    //   axios({
-    //     method: "get",
-    //     url: "https://newsapi.org/v2/top-headlines?country=us",
-    //     params: {
-    //       sortBy: "popularity",
-    //       apiKey: import.meta.env.VITE_NEWS_API_KEY,
-    //     },
-    //   }).then((resp) => {
-    //     dispatch(setSearchResults(resp.data.articles));
-    //     setLoading(false); // Set loading to false when data is fetched
-    //   });
-    // };
-    // getTopNewsOrgHeadlines();
-    // const getTopNYTimesHeadlines = () => {
-    //   const params = {
-    //     "api-key": import.meta.env.VITE_NEW_YORK_TIMES_API_KEY,
-    //   };
-    //   axios.get("https://api.nytimes.com/svc/topstories/v2/home.json", { params }).then((resp) => {
-    //     const articles: ArticleInterface[] = resp.data.results.map((doc: any) => ({
-    //       title: doc.title,
-    //       description: doc.abstract,
-    //       url: doc.url,
-    //       urlToImage: doc.multimedia?.[0]?.url || "", // Fallback in case of no image
-    //       source: "New York Times",
-    //     }));
-    //     dispatch(setSearchResults(articles));
-    //   });
-    // };
-    // getTopNYTimesHeadlines();
+    // Function to submit request, combine results, and shuffle them
+    const submitRequest = async () => {
+      setLoading(true); // Set loading to true when fetching starts
+
+      const newsOrgResults = await getNewsOrgHeadlines();
+      const nyTimesResults = await getNyTimesHeadlines();
+      const guardianResults = await getGuardianHeadlines();
+
+      // Combine all results
+      let allResults = combineResults(newsOrgResults, nyTimesResults);
+      allResults = combineResults(allResults, guardianResults);
+
+      // Randomize the order of the results
+      allResults = shuffleArray(allResults);
+
+      // Dispatch combined and shuffled results to Redux
+      dispatch(setSearchResults(allResults));
+      setLoading(false);
+    };
+
+    submitRequest();
   }, [dispatch]);
 
   if (loading) {
