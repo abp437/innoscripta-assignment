@@ -5,17 +5,11 @@ import { setSearchQuery } from "../app/searchSlice";
 import { setSearchResults } from "../app/searchResultsSlice"; // Import the setSearchResults action
 import SearchIcon from "./icons/SearchIcon";
 import ArticleInterface from "../interfaces/ArticleInterface";
+import { formatDateToYesterday } from "../utils/date";
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
-
-  // Function to format the date for yesterday
-  const formatDateToYesterday = () => {
-    const today = new Date();
-    today.setDate(today.getDate() - 1);
-    return today.toISOString().split("T")[0]; // Returns date in YYYY-MM-DD format
-  };
 
   // Function to fetch news
   const searchNewsOrg = (searchQuery: string = "") => {
@@ -73,11 +67,29 @@ const SearchBar: React.FC = () => {
     }
   };
 
+  const searchGuardian = (searchQuery: string) => {
+    const params = {
+      "api-key": import.meta.env.VITE_THE_GUARDIAN_API_KEY,
+    };
+
+    axios.get("https://content.guardianapis.com/search", { params: { ...params, q: searchQuery } }).then((resp) => {
+      const articles: ArticleInterface[] = resp.data.response.results.map((doc: any) => ({
+        title: doc.webTitle,
+        description: `${doc.sectionName} - ${doc.webTitle}`,
+        url: doc.webUrl,
+        urlToImage: null, // Fallback in case of no image
+        source: "The Guardian",
+      }));
+      dispatch(setSearchResults(articles));
+    });
+  };
+
   const submitRequest = () => {
     if (query.trim()) {
       dispatch(setSearchQuery(query)); // Dispatch query to Redux
       searchNewsOrg(query); // Fetch news for the query
       searchNYTimes(query);
+      searchGuardian(query);
     } else {
       searchNewsOrg(); // Fetch top headlines if search query is blank
       searchNYTimes();
