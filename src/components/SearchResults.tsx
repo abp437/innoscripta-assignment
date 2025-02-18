@@ -10,6 +10,7 @@ import ArticleInterface from "../interfaces/ArticleInterface";
 import { shuffleArray } from "../utils/array";
 import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
+import SourceSeparator from "./common/SourceSeparator";
 
 const combineResults = (articles: ArticleInterface[], newArticles: ArticleInterface[]) => {
   return [...articles, ...newArticles];
@@ -132,8 +133,8 @@ const SearchResults: React.FC = () => {
             <div className="flex-1">
               <h3 className="text-xl md:text-2xl font-semibold">{article.title}</h3>
               <p className="text-md mb-4">{article.description}</p>
-              <ReadMoreLink url={article.url} extraClasses="block mb-4" />
-              <span className="roboto-bold text-sm text-gray-400">{`Source: ${article.source}`}</span>
+              <ReadMoreLink url={article.url} extraClasses="block mb-2" />
+              <SourceSeparator article={article} />
             </div>
           </div>
         </div>

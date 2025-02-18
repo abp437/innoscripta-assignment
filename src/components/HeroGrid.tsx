@@ -5,6 +5,8 @@ import ReadMoreLink from "./ReadMoreLink";
 import HeroMainSkeleton from "./skeleton_loaders/HeroMainSkeleton";
 import HeroSubSectionSkeleton from "./skeleton_loaders/HeroSubSectionSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
+import SourceSeparator from "./common/SourceSeparator";
+import { convertNewsOrgResponse } from "../utils/article";
 
 const HeroGrid: React.FC = () => {
   // Manage the state with the correct Article type
@@ -67,23 +69,29 @@ const HeroGrid: React.FC = () => {
                   .fill(0)
                   .map((_, index) => <HeroMainSkeleton key={index} />)
               : articles
-                  .filter((article) => article.urlToImage) // Filter articles where urlToImage is not null or empty
-                  .map(({ url, urlToImage, title, description }) => (
-                    <div key={url} className="group overflow-hidden">
-                      <img
-                        className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
-                        src={urlToImage}
-                        alt={title}
-                      />
-                      <div className="pb-6 pt-2">
-                        <h3 className="text-2xl lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
-                        <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
-                          {description}
-                        </p>
-                        <ReadMoreLink url={url} extraClasses="block mb-4" />
+                  .filter((article) => article.urlToImage)
+                  .map((a) => {
+                    const article = convertNewsOrgResponse(a);
+                    const { url, urlToImage, title, description } = article;
+
+                    return (
+                      <div key={url} className="group overflow-hidden">
+                        <img
+                          className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
+                          src={urlToImage}
+                          alt={title}
+                        />
+                        <div className="pb-6 pt-2">
+                          <h3 className="text-2xl lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
+                          <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                            {description}
+                          </p>
+                          <ReadMoreLink url={url} extraClasses="block mb-2" />
+                          <SourceSeparator article={article} />
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
           </div>
         </div>
 
@@ -97,17 +105,23 @@ const HeroGrid: React.FC = () => {
               ? Array(3)
                   .fill(0)
                   .map((_, index) => <HeroSubSectionSkeleton key={index} />)
-              : latestUpdates.map(({ url, title, description }) => (
-                  <div key={url} className="group overflow-hidden">
-                    <div className="border-b-1 border-gray-300">
-                      <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
-                      <p className="text-sm text-gray-600 mb-2 overflow-hidden text-ellipsis line-clamp-2">
-                        {description}
-                      </p>
-                      <ReadMoreLink url={url} extraClasses="block mb-4" />
+              : latestUpdates.map((a) => {
+                  const article = convertNewsOrgResponse(a);
+                  const { url, title, description } = article;
+
+                  return (
+                    <div key={url} className="group overflow-hidden">
+                      <div className="border-b-1 border-gray-300">
+                        <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
+                        <p className="text-sm text-gray-600 mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                          {description}
+                        </p>
+                        <ReadMoreLink url={url} extraClasses="block mb-2" />
+                        <SourceSeparator article={article} extraClasses="mb-4" />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
           </div>
         </div>
       </div>
@@ -121,13 +135,19 @@ const HeroGrid: React.FC = () => {
           ? Array(3)
               .fill(0)
               .map((_, index) => <HeroSubSectionSkeleton key={index} />)
-          : trendingArticles.map(({ url, title, description }) => (
-              <div key={url} className="group overflow-hidden">
-                <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
-                <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2 mb-2">{description}</p>
-                <ReadMoreLink url={url} extraClasses="block" />
-              </div>
-            ))}
+          : trendingArticles.map((a) => {
+              const article = convertNewsOrgResponse(a);
+              const { url, title, description } = article;
+
+              return (
+                <div key={url} className="group overflow-hidden">
+                  <h3 className="text-lg lora-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{title}</h3>
+                  <p className="text-sm text-gray-600 overflow-hidden text-ellipsis line-clamp-2 mb-2">{description}</p>
+                  <ReadMoreLink url={url} extraClasses="block mb-2" />
+                  <SourceSeparator article={article} />
+                </div>
+              );
+            })}
       </div>
     </div>
   );
