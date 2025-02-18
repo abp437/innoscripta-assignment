@@ -22,8 +22,13 @@ The project is built with the following technologies:
 
 Before you begin, make sure you have the following installed on your system:
 
-- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
 - **Node.js 20.x**: [Install Node.js](https://nodejs.org/)
+
+### Optional Dependency (For Docker Setup)
+
+- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
+
+Docker is only required if you choose to use the Docker setup. It is not necessary for the manual setup.
 
 ## Setup Steps
 
@@ -82,3 +87,4 @@ Before you begin, make sure you have the following installed on your system:
 
 - **For Docker setup**, make sure Docker is running before executing the `start.sh` script. This setup runs the application in **production mode**.
 - **For the manual setup**, ensure that Node.js 20.x is installed and running.
+- **API Rate Limiting**: Please note that all the free versions of the APIs used in this app (NewsAPI, New York Times, and The Guardian) are rate-limited. This means that if the app makes too many requests in a short period, it may result in a temporary inability to retrieve news articles. To avoid this, consider using a paid API plan or be mindful of the usage limits.
