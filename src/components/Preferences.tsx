@@ -16,7 +16,8 @@ const Preferences: React.FC = () => {
   const dispatch = useDispatch();
   const isVisible = useSelector((state: any) => state.preferences.isVisible);
   const getPreferencesFromLocal = () => localStorage.getItem("user-preferences");
-  const setPreferencesInLocal = (preferences) => localStorage.setItem("user-preferences", JSON.stringify(preferences));
+  const setPreferencesInLocal = (preferences: Preferences) =>
+    localStorage.setItem("user-preferences", JSON.stringify(preferences));
 
   const [categories, setCategories] = useState<string[]>([]);
   const [sources, setSources] = useState<string[]>([]);
@@ -37,7 +38,7 @@ const Preferences: React.FC = () => {
     setSources(savedSources);
   }, [isVisible]);
 
-  const saveToLocalStorage = (categories, sources) => {
+  const saveToLocalStorage = (categories: string[], sources: string[]) => {
     setPreferencesInLocal({ categories, sources });
   };
 

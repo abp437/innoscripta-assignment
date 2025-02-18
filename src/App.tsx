@@ -3,7 +3,6 @@ import { store } from "./app/store";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ArticlesList from "./components/ArticlesList";
 import Preferences from "./components/Preferences";
 import HeroGrid from "./components/HeroGrid";
 import NewsFeed from "./components/NewsFeed";
@@ -31,7 +30,6 @@ function App() {
                 </>
               }
             />
-            <Route path="/articles" element={<ArticlesList />} />
             <Route
               path="/search"
               element={

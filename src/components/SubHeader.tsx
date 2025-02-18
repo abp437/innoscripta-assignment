@@ -26,16 +26,6 @@ function SubHeader() {
         </li>
         <li>
           <NavLink
-            to="/articles"
-            className={({ isActive }) =>
-              isActive ? "border-b-2 border-red-600" : "hover:border-b-2 hover:border-red-600"
-            }
-          >
-            Articles
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
             to="/search"
             className={({ isActive }) =>
               isActive ? "border-b-2 border-red-600" : "hover:border-b-2 hover:border-red-600"
