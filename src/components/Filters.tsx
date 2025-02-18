@@ -3,6 +3,7 @@ import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice";
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 import { sortSearchResults } from "../utils/array";
+import { NYT, GUARDIAN, NEWS_ORG } from "../utils/constants";
 
 const Filter: React.FC = () => {
   const dispatch = useDispatch();
@@ -59,9 +60,9 @@ const Filter: React.FC = () => {
         }}
       >
         <option value="all">All Sources</option>
-        <option value="The New York Times">The New York Times</option>
-        <option value="The Guardian">The Guardian</option>
-        <option value="News Org">News Org</option>
+        <option value={NYT}>{NYT}</option>
+        <option value={GUARDIAN}>{GUARDIAN}</option>
+        <option value={NEWS_ORG}>{NEWS_ORG}</option>
       </select>
       <select
         className="border border-gray-300 px-4 py-2"

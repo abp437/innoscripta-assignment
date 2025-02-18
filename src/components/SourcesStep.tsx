@@ -1,4 +1,5 @@
 import Select from "react-select";
+import { NYT, GUARDIAN, NEWS_ORG } from "../utils/constants";
 
 interface SourcesStepProps {
   sources: string[];
@@ -8,9 +9,9 @@ interface SourcesStepProps {
 
 const SourcesStep: React.FC<SourcesStepProps> = ({ sources, setSources, onSubmit }) => {
   const options = [
-    { value: "The New York Times", label: "The New York Times" },
-    { value: "The Guardian", label: "The Guardian" },
-    { value: "News Org", label: "News Org" },
+    { value: NYT, label: NYT },
+    { value: GUARDIAN, label: GUARDIAN },
+    { value: NEWS_ORG, label: NEWS_ORG },
   ];
 
   const handleChange = (selectedOptions: any) => {

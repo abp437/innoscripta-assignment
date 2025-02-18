@@ -1,5 +1,6 @@
 import ArticleInterface from "../interfaces/ArticleInterface";
 import { getPublicationDate } from "./date";
+import { NYT, GUARDIAN, NEWS_ORG } from "./constants";
 
 export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
   title: article.title,
@@ -9,7 +10,7 @@ export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
   publicationDisplayDate: getPublicationDate(article.publishedAt),
   publicationDate: article.publishedAt,
   subSource: article.source.name,
-  source: "News Org",
+  source: NEWS_ORG,
 });
 
 export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
@@ -23,7 +24,7 @@ export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
     : null,
   publicationDisplayDate: getPublicationDate(doc.published_date),
   publicationDate: doc.published_date,
-  source: "The New York Times",
+  source: NYT,
 });
 
 export const convertGuardianResponse = (article: any): ArticleInterface => ({
@@ -33,5 +34,5 @@ export const convertGuardianResponse = (article: any): ArticleInterface => ({
   urlToImage: article?.fields?.thumbnail || null,
   publicationDisplayDate: getPublicationDate(article.webPublicationDate),
   publicationDate: article.webPublicationDate,
-  source: "The Guardian",
+  source: GUARDIAN,
 });

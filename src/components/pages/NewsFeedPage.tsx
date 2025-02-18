@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { getCategoriesFromLocalStorage } from "../utils/localStorage";
-import ReadMoreLink from "./ReadMoreLink";
+import { getCategoriesFromLocalStorage } from "../../utils/localStorage";
+import ReadMoreLink from "../ReadMoreLink";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);

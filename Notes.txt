@@ -1,1 +1,1 @@
-
+Search is searching through all the three sources. It doens't take into account the user preferences.
