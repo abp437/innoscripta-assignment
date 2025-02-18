@@ -4,7 +4,7 @@ import { showPreferences, hidePreferences } from "../app/preferencesSlice";
 import Overlay from "./Overlay";
 import CategoriesStep from "./CategoriesStep";
 import SourcesStep from "./SourcesStep";
-import HighlightText from "./HighlightText";
+import HighlightText from "./common/HighlightText";
 import CloseIcon from "./icons/CloseIcon";
 
 interface Preferences {

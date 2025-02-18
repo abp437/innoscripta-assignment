@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import HighlightText from "./HighlightText";
+import HighlightText from "./common/HighlightText";
 import ReadMoreLink from "./ReadMoreLink";
 import HeroMainSkeleton from "./skeleton_loaders/HeroMainSkeleton";
 import HeroSubSectionSkeleton from "./skeleton_loaders/HeroSubSectionSkeleton";

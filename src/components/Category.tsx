@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import HighlightText from "./HighlightText";
+import HighlightText from "./common/HighlightText";
 import { getCategoriesFromLocalStorage } from "../utils/localStorage";
 import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";

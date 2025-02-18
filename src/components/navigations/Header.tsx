@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { showPreferences } from "../app/preferencesSlice";
-import SettingsIcon from "./icons/SettingsIcon";
-import SearchIcon from "./icons/SearchIcon";
+import { showPreferences } from "../../app/preferencesSlice";
+import SettingsIcon from "../icons/SettingsIcon";
+import SearchIcon from "../icons/SearchIcon";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();

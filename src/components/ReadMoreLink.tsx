@@ -1,4 +1,4 @@
-import HighlightText from "./HighlightText";
+import HighlightText from "./common/HighlightText";
 
 interface ReadMoreLinkProps {
   url: string;

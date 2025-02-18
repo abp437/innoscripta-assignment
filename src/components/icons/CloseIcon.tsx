@@ -1,4 +1,4 @@
-import IconProps from "../../interfaces/IconPropsInterface";
+import IconProps from "../../interfaces/props/IconPropsInterface";
 
 const CloseIcon: React.FC<IconProps> = ({ extraClasses = "", width = 24, height = 24 }) => (
   <svg

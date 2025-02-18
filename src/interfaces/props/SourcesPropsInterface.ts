@@ -1,4 +1,4 @@
-import ArticleInterface from "./ArticleInterface";
+import ArticleInterface from "../ArticleInterface";
 
 interface SourcePropsInterface {
   article: ArticleInterface;

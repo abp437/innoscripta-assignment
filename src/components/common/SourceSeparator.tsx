@@ -1,4 +1,4 @@
-import SourcePropsInterface from "../../interfaces/SourcesPropsInterface";
+import SourcePropsInterface from "../../interfaces/props/SourcesPropsInterface";
 import { Source } from "../../interfaces/ArticleInterface";
 
 const SourceSeparator: React.FC<SourcePropsInterface> = ({ article, extraClasses = "" }) => {
