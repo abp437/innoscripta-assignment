@@ -6,7 +6,8 @@ export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
   description: article.description || "No description available",
   url: article.url,
   urlToImage: article.urlToImage || null,
-  publicationDate: getPublicationDate(article.publishedAt),
+  publicationDisplayDate: getPublicationDate(article.publishedAt),
+  publicationDate: article.publishedAt,
   subSource: article.source.name,
   source: "News Org",
 });
@@ -20,7 +21,8 @@ export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
       ? doc.multimedia[2].url
       : `https://static01.nyt.com/${doc.multimedia[0].url}`
     : null,
-  publicationDate: getPublicationDate(doc.published_date),
+  publicationDisplayDate: getPublicationDate(doc.published_date),
+  publicationDate: doc.published_date,
   source: "The New York Times",
 });
 
@@ -29,6 +31,7 @@ export const convertGuardianResponse = (article: any): ArticleInterface => ({
   description: `${article.sectionName} - ${article.webTitle}`,
   url: article.webUrl,
   urlToImage: article?.fields?.thumbnail || null,
-  publicationDate: getPublicationDate(article.webPublicationDate),
+  publicationDisplayDate: getPublicationDate(article.webPublicationDate),
+  publicationDate: article.webPublicationDate,
   source: "The Guardian",
 });

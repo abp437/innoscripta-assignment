@@ -7,7 +7,7 @@ import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
-import { shuffleArray } from "../utils/array";
+import { sortSearchResults } from "../utils/array";
 import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 import SourceSeparator from "./common/SourceSeparator";
@@ -72,7 +72,7 @@ const SearchResults: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Function to submit request, combine results, and shuffle them
+    // Function to submit request, combine results, and sort them in desc
     const submitRequest = async () => {
       setLoading(true); // Set loading to true when fetching starts
 
@@ -85,9 +85,9 @@ const SearchResults: React.FC = () => {
       allResults = combineResults(allResults, guardianResults);
 
       // Randomize the order of the results
-      allResults = shuffleArray(allResults);
+      allResults = sortSearchResults("desc", allResults);
 
-      // Dispatch combined and shuffled results to Redux
+      // Dispatch combined and desc sorted results to Redux
       dispatch(setSearchResults(allResults));
       dispatch(setOriginalArticles(allResults));
       dispatch(setSourceFilter("all"));

@@ -6,7 +6,7 @@ import { setOriginalArticles, setSearchResults } from "../app/searchResultsSlice
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 import SearchIcon from "./icons/SearchIcon";
 import ArticleInterface from "../interfaces/ArticleInterface";
-import { shuffleArray } from "../utils/array";
+import { sortSearchResults } from "../utils/array";
 import { formatDateToYesterday } from "../utils/date";
 import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
 
@@ -103,10 +103,10 @@ const SearchBar: React.FC = () => {
       allResults = combineResults(newsOrgResults, nyTimesResults);
       allResults = combineResults(allResults, guardianResults);
 
-      // Randomize the order of the results
-      allResults = shuffleArray(allResults);
+      // Desc sort the order of the results
+      allResults = sortSearchResults("desc", allResults);
 
-      // Dispatch combined and shuffled results to Redux
+      // Dispatch combined and desc sorted results to Redux
       dispatch(setSourceFilter("all"));
       dispatch(setCategoryFilter("all"));
       dispatch(setOrderByFilter("desc"));
@@ -122,10 +122,10 @@ const SearchBar: React.FC = () => {
       let allResults = combineResults(newsOrgResults, nyTimesResults);
       allResults = combineResults(allResults, guardianResults);
 
-      // Randomize the order of the results
-      allResults = shuffleArray(allResults);
+      // Desc sort the order of the results
+      allResults = sortSearchResults("desc", allResults);
 
-      // Dispatch combined and shuffled results to Redux
+      // Dispatch combined and desc sorted results to Redux
       dispatch(setSourceFilter("all"));
       dispatch(setCategoryFilter("all"));
       dispatch(setOrderByFilter("desc"));

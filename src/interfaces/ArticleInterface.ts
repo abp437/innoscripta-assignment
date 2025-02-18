@@ -9,6 +9,7 @@ interface ArticleInterface {
   url: string;
   urlToImage: string;
   source: string | Source;
+  publicationDisplayDate: string;
   publicationDate: string;
   subSource?: string;
 }

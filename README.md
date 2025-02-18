@@ -16,6 +16,7 @@ The project is built with the following technologies:
 - **TypeScript**: A strongly-typed programming language for JavaScript.
 - **Vite**: A next-generation, fast build tool.
 - **Redux Toolkit**: State management for React applications.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
 
 ## Prerequisites
 

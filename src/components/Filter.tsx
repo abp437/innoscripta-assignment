@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice";
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
-import ArticleInterface from "../interfaces/ArticleInterface";
+import { sortSearchResults } from "../utils/array";
 
 const Filter: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,20 +33,7 @@ const Filter: React.FC = () => {
   };
 
   const sortByOrder = (order: string) => {
-    let sortedArticles: ArticleInterface[] = [...searchResults];
-
-    if (order === "desc") {
-      // Sort articles by publicationDate in descending order (latest first)
-      sortedArticles = sortedArticles.sort((a, b) => {
-        return b.publicationDate.localeCompare(a.publicationDate);
-      });
-    } else if (order === "asc") {
-      // Sort articles by publicationDate in ascending order (oldest first)
-      sortedArticles = sortedArticles.sort((a, b) => {
-        return a.publicationDate.localeCompare(b.publicationDate);
-      });
-    }
-
+    const sortedArticles = sortSearchResults(order, searchResults);
     dispatch(setSearchResults(sortedArticles));
   };
 

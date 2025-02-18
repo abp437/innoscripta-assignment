@@ -15,7 +15,7 @@ const SourceSeparator: React.FC<SourcePropsInterface> = ({ article, extraClasses
         </>
       )}
       <span className="mx-2 text-gray-400">|</span>
-      <span className="roboto-bold text-sm text-gray-400">{article.publicationDate}</span>
+      <span className="roboto-bold text-sm text-gray-400">{article.publicationDisplayDate}</span>
     </div>
   );
 };
