@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setSearchQuery } from "../app/searchSlice";
-import { setSearchResults } from "../app/searchResultsSlice"; // Import the setSearchResults action
+import { setOriginalArticles, setSearchResults } from "../app/searchResultsSlice";
 import SearchIcon from "./icons/SearchIcon";
 import ArticleInterface from "../interfaces/ArticleInterface";
 import { shuffleArray } from "../utils/array";
@@ -106,6 +106,7 @@ const SearchBar: React.FC = () => {
       allResults = shuffleArray(allResults);
 
       // Dispatch combined and shuffled results to Redux
+      dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     } else {
       // If no query, fetch and combine top headlines from NewsOrg, NYTimes, and Guardian
@@ -121,6 +122,7 @@ const SearchBar: React.FC = () => {
       allResults = shuffleArray(allResults);
 
       // Dispatch combined and shuffled results to Redux
+      dispatch(setOriginalArticles(allResults));
       dispatch(setSearchResults(allResults));
     }
   };

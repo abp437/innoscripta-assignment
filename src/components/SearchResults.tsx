@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { RootState } from "../app/store";
-import { setSearchResults } from "../app/searchResultsSlice";
+import { setOriginalArticles, setSearchResults } from "../app/searchResultsSlice";
 import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
@@ -87,6 +87,7 @@ const SearchResults: React.FC = () => {
 
       // Dispatch combined and shuffled results to Redux
       dispatch(setSearchResults(allResults));
+      dispatch(setOriginalArticles(allResults));
       setLoading(false);
     };
 
