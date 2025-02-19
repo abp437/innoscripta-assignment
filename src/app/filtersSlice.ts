@@ -1,4 +1,3 @@
-// filtersSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface FiltersState {
@@ -10,7 +9,7 @@ interface FiltersState {
 const initialState: FiltersState = {
   sourceFilter: "all",
   categoryFilter: "all",
-  orderByFilter: "asc",
+  orderByFilter: "desc",
 };
 
 const filtersSlice = createSlice({

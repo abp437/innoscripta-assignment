@@ -2,17 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { getCategoriesFromLocalStorage } from "../../utils/localStorage";
 import ReadMoreLink from "../ReadMoreLink";
+import SourceSeparator from "../common/SourceSeparator";
+import { convertNewsOrgResponse } from "../../utils/article";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<boolean>(false); // Flag to track if a request is in progress
 
   // Set to keep track of article URLs (or another unique property) for uniqueness
   const uniqueArticles = useRef<Set<string>>(new Set());
+  const lastArticleRef = useRef<HTMLDivElement | null>(null); // Ref to observe the last article
 
   // Function to fetch articles based on category
   const fetchArticles = async (pageNumber: number) => {
@@ -78,18 +80,17 @@ const NewsFeed: React.FC = () => {
       }
     };
 
-    observer.current = new IntersectionObserver(loadMore, {
-      rootMargin: "100px 0px 90px 0px", // Adjust for footer height
+    const observer = new IntersectionObserver(loadMore, {
+      rootMargin: "100px 0px 160px 0px", // Adjust for footer height
     });
 
-    const lastArticle = document.querySelector("#last-article");
-    if (lastArticle) {
-      observer.current.observe(lastArticle);
+    if (lastArticleRef.current) {
+      observer.observe(lastArticleRef.current); // Observe the last article directly
     }
 
     return () => {
-      if (observer.current && lastArticle) {
-        observer.current.unobserve(lastArticle);
+      if (lastArticleRef.current) {
+        observer.unobserve(lastArticleRef.current); // Clean up observer
       }
     };
   }, [loading, hasMore]);
@@ -98,29 +99,31 @@ const NewsFeed: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {articles.map((article, index) => (
-          <div
-            key={`${article.url}-${article.publishedAt}`} // Combining URL and published date to ensure uniqueness
-            className={`group bg-white shadow-lg overflow-hidden transition-shadow duration-300 ${index % 2 === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
-            id={index === articles.length - 1 ? "last-article" : ""}
-          >
-            {/* Article Image */}
-            <img
-              src={article.urlToImage}
-              alt={article.title}
-              className="w-full h-48 sm:h-64 object-cover group-hover:opacity-80 transition-opacity duration-300"
-            />
+        {articles.map((a, index) => {
+          const article = convertNewsOrgResponse(a);
 
-            <div className="p-6">
-              {/* Category Title */}
-              <h2 className="text-2xl font-semibold text-gray-800 mb-2">{article.title}</h2>
-
-              {/* Description */}
-              <p className="text-gray-600 text-sm mb-4">{article.description}</p>
-              <ReadMoreLink url={article.url} />
+          return (
+            <div
+              key={`${article.url}-${article.publicationDate}`} // Ensuring uniqueness
+              className="group overflow-hidden mb-4"
+              ref={index === articles.length - 1 ? lastArticleRef : null} // Assign ref to the last article
+            >
+              <img
+                src={article.urlToImage}
+                alt={article.title}
+                className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80 transition-opacity duration-300"
+              />
+              <div className="py-2 border-b-1 border-gray-300">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{article.title}</h3>
+                <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                  {article.description}
+                </p>
+                <ReadMoreLink url={article.url} extraClasses="block mb-2" />
+                <SourceSeparator article={article} extraClasses="mb-4" />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Loading Spinner */}
