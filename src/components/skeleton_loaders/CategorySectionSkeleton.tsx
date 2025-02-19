@@ -1,5 +1,5 @@
 const CategorySectionSkeleton = () => (
-  <div>
+  <div className="animate-pulse">
     {/* Skeleton for title */}
     <div className="h-8 bg-gray-300 w-3/4 mb-4"></div>
 

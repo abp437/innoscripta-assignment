@@ -5,6 +5,7 @@ import ReadMoreLink from "../ReadMoreLink";
 import SourceSeparator from "../common/SourceSeparator";
 import { convertNewsOrgResponse } from "../../utils/article";
 import ImageWithFallback from "../common/ImageWithFallback";
+import NewsFeedSkeleton from "../skeleton_loaders/NewsFeedSkeleton";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -128,22 +129,10 @@ const NewsFeed: React.FC = () => {
           );
         })}
         {loading &&
-          Array(10) // Adjust the number of skeleton loaders based on articles being fetched
+          Array(8)
             .fill(null)
-            .map((_, index) => (
-              <div key={index} className="group overflow-hidden mb-4">
-                <div className="w-full h-72 bg-gray-300 animate-pulse"></div>
-                <div className="py-2 border-b-1 border-gray-300">
-                  <div className="h-6 bg-gray-300 animate-pulse mb-2 w-3/4"></div>
-                  <div className="h-4 bg-gray-300 animate-pulse mb-2 w-5/6"></div>
-                  <div className="h-4 bg-gray-300 animate-pulse mb-4 w-1/3"></div>
-                </div>
-              </div>
-            ))}
+            .map((_, i) => <NewsFeedSkeleton key={i} />)}
       </div>
-
-      {/* Loading Spinner */}
-      {loading && <div className="text-center mt-4">Loading...</div>}
     </div>
   );
 };
