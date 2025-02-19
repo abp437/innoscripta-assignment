@@ -4,6 +4,7 @@ import { getCategoriesFromLocalStorage } from "../../utils/localStorage";
 import ReadMoreLink from "../ReadMoreLink";
 import SourceSeparator from "../common/SourceSeparator";
 import { convertNewsOrgResponse } from "../../utils/article";
+import ImageWithFallback from "../common/ImageWithFallback";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -108,10 +109,12 @@ const NewsFeed: React.FC = () => {
               className="group overflow-hidden mb-4"
               ref={index === articles.length - 1 ? lastArticleRef : null} // Assign ref to the last article
             >
-              <img
+              <ImageWithFallback
                 src={article.urlToImage}
                 alt={article.title}
-                className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80 transition-opacity duration-300"
+                imgClasses="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80 transition-opacity duration-300"
+                iconClasses="w-full h-96 sm:h-72 md:h-72"
+                iconSize={128}
               />
               <div className="py-2 border-b-1 border-gray-300">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{article.title}</h3>
