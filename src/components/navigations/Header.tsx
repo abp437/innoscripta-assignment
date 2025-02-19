@@ -19,7 +19,7 @@ const Header: React.FC = () => {
             <SearchIcon />
           </NavLink>
         </div>
-        <h1 className="text-4xl cinzel-bold text-gray-900 uppercase text-center">
+        <h1 className="text-xl sm:text-2xl md:text-3xl cinzel-bold text-gray-900 uppercase text-center">
           <NavLink to="/">News Aggregator</NavLink>
         </h1>
         <div className="w-8 flex items-center justify-end">
