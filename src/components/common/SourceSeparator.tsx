@@ -7,15 +7,15 @@ const SourceSeparator: React.FC<SourcePropsInterface> = ({ article, extraClasses
 
   return (
     <div className={`flex items-center flex-wrap ${extraClasses}`}>
-      <span className="roboto-bold text-sm text-gray-400 whitespace-nowrap">{source as string}</span>
+      <span className="roboto-bold text-sm text-gray-400">{source as string}</span>
       {article.subSource && (
-        <>
-          <span className="mx-2 text-gray-400">|</span>
-          <span className="roboto-bold text-sm text-gray-400 whitespace-nowrap">{article.subSource}</span>
-        </>
+        <span className="roboto-bold text-sm text-gray-400 mx-2 border-l-2 border-gray-300 pl-2">
+          {article.subSource}
+        </span>
       )}
-      <span className="mx-2 text-gray-400">|</span>
-      <span className="roboto-bold text-sm text-gray-400 whitespace-nowrap">{article.publicationDisplayDate}</span>
+      <span className="roboto-bold text-sm text-gray-400 mx-2 border-l-2 border-gray-300 pl-2">
+        {article.publicationDisplayDate}
+      </span>
     </div>
   );
 };

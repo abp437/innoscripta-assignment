@@ -100,14 +100,15 @@ const NewsFeed: React.FC = () => {
     <div className="w-full xl:container xl:max-w-screen-xl xl:mx-auto px-4 xl:px-2 py-6">
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-        {articles.map((a, index) => {
+        {/* Render already loaded articles */}
+        {articles.map((a, i) => {
           const article = convertNewsOrgResponse(a);
 
           return (
             <div
               key={`${article.url}-${article.publicationDate}`} // Ensuring uniqueness
               className="group overflow-hidden mb-4"
-              ref={index === articles.length - 1 ? lastArticleRef : null} // Assign ref to the last article
+              ref={i === articles.length - 1 ? lastArticleRef : null} // Assign ref to the last article
             >
               <ImageWithFallback
                 src={article.urlToImage}
@@ -126,6 +127,19 @@ const NewsFeed: React.FC = () => {
             </div>
           );
         })}
+        {loading &&
+          Array(10) // Adjust the number of skeleton loaders based on articles being fetched
+            .fill(null)
+            .map((_, index) => (
+              <div key={index} className="group overflow-hidden mb-4">
+                <div className="w-full h-72 bg-gray-300 animate-pulse"></div>
+                <div className="py-2 border-b-1 border-gray-300">
+                  <div className="h-6 bg-gray-300 animate-pulse mb-2 w-3/4"></div>
+                  <div className="h-4 bg-gray-300 animate-pulse mb-2 w-5/6"></div>
+                  <div className="h-4 bg-gray-300 animate-pulse mb-4 w-1/3"></div>
+                </div>
+              </div>
+            ))}
       </div>
 
       {/* Loading Spinner */}
