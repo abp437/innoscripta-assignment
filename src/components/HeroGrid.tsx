@@ -7,6 +7,7 @@ import HeroSubSectionSkeleton from "./skeleton_loaders/HeroSubSectionSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
 import SourceSeparator from "./common/SourceSeparator";
 import { convertNewsOrgResponse } from "../utils/article";
+import ImageWithFallback from "./common/ImageWithFallback";
 
 const HeroGrid: React.FC = () => {
   // Manage the state with the correct Article type
@@ -76,8 +77,8 @@ const HeroGrid: React.FC = () => {
 
                     return (
                       <div key={url} className="group overflow-hidden">
-                        <img
-                          className="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
+                        <ImageWithFallback
+                          imgClasses="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80"
                           src={urlToImage}
                           alt={title}
                         />

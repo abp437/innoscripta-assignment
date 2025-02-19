@@ -113,7 +113,6 @@ const NewsFeed: React.FC = () => {
                 src={article.urlToImage}
                 alt={article.title}
                 imgClasses="w-full h-96 sm:h-72 md:h-72 object-cover group-hover:opacity-80 transition-opacity duration-300"
-                iconClasses="w-full h-96 sm:h-72 md:h-72"
                 iconSize={128}
               />
               <div className="py-2 border-b-1 border-gray-300">

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { RootState } from "../app/store";
 import { setOriginalArticles, setSearchResults } from "../app/searchResultsSlice";
-import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import SearchResultsSkeleton from "./skeleton_loaders/SearchResultsSkeleton";
 import ArticleInterface from "../interfaces/ArticleInterface";
@@ -11,6 +10,7 @@ import { sortSearchResults } from "../utils/array";
 import { convertNYTimesResponse, convertNewsOrgResponse, convertGuardianResponse } from "../utils/article";
 import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
 import SourceSeparator from "./common/SourceSeparator";
+import ImageWithFallback from "./common/ImageWithFallback";
 
 const combineResults = (articles: ArticleInterface[], newArticles: ArticleInterface[]) => {
   return [...articles, ...newArticles];
@@ -119,17 +119,12 @@ const SearchResults: React.FC = () => {
       {searchResults.map((article: ArticleInterface) => (
         <div key={article.url} className="border-b-1 p-4 mb-4 border-gray-300">
           <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
-            {article.urlToImage ? (
-              <img
-                className="w-full h-48 md:w-24 md:h-24 object-cover group-hover:opacity-80"
-                src={article.urlToImage}
-                alt={article.title}
-              />
-            ) : (
-              <div className="w-full h-48 md:w-24 md:h-24 object-cover group-hover:opacity-80 flex justify-center items-center border-1">
-                <NewsIcon width={50} height={50} />
-              </div>
-            )}
+            <ImageWithFallback
+              imgClasses="w-full h-48 md:w-24 md:h-24 object-cover group-hover:opacity-80"
+              iconSize={50}
+              src={article.urlToImage}
+              alt={article.title}
+            />
             <div className="flex-1">
               <h3 className="text-xl md:text-2xl font-semibold">{article.title}</h3>
               <p className="text-md mb-4">{article.description}</p>

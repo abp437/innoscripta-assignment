@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import HighlightText from "./common/HighlightText";
 import { getCategoriesFromLocalStorage } from "../utils/localStorage";
-import NewsIcon from "./icons/NewsIcon";
 import ReadMoreLink from "./ReadMoreLink";
 import CategorySectionSkeleton from "./skeleton_loaders/CategorySectionSkeleton";
 import SourceSeparator from "./common/SourceSeparator";
 import { convertNewsOrgResponse } from "../utils/article";
+import ImageWithFallback from "./common/ImageWithFallback";
 
 const Category: React.FC = () => {
   const [articles, setArticles] = useState<{ [key: string]: any[] }>({});
@@ -105,21 +105,13 @@ const Category: React.FC = () => {
 
                     return (
                       <div key={article.url} className="text-gray-800 border-b-1 pb-4 border-gray-300">
-                        {/* Check if it's the first article */}
                         {i === 0 && (
-                          <>
-                            {article.urlToImage ? (
-                              <img
-                                src={article.urlToImage}
-                                alt={article.title}
-                                className="w-full h-56 sm:h-72 md:h-48 lg:h-36 object-cover group-hover:opacity-80 transition-opacity duration-300 mb-2"
-                              />
-                            ) : (
-                              <div className="w-full h-56 sm:h-72 md:h-48 lg:h-36 object-cover group-hover:opacity-80 flex justify-center items-center border-1 mb-2">
-                                <NewsIcon width={50} height={50} />
-                              </div>
-                            )}
-                          </>
+                          <ImageWithFallback
+                            imgClasses="w-full h-56 sm:h-72 md:h-48 lg:h-36 object-cover group-hover:opacity-80 transition-opacity duration-300 mb-2"
+                            src={article.urlToImage}
+                            alt={article.title}
+                            iconSize={50}
+                          />
                         )}
                         <h3 className="lora-bold text-lg">{article.title}</h3>
                         <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">

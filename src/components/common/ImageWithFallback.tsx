@@ -7,6 +7,8 @@ interface ImageWithFallbackProps {
   imgClasses?: string;
   iconSize?: number;
   iconClasses?: string;
+  iconWrapperClasses?: string;
+  areClassesSame?: boolean;
 }
 
 const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
@@ -15,6 +17,8 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   imgClasses = "",
   iconSize = 24,
   iconClasses = "",
+  iconWrapperClasses = "",
+  areClassesSame = true,
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
 
@@ -22,13 +26,16 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
     setImageSrc("");
   };
 
+  const appliedImgClasses = areClassesSame ? imgClasses : "";
+  const appliedIconWrapperClasses = areClassesSame ? imgClasses : iconWrapperClasses;
+
   return (
     <>
       {imageSrc ? (
-        <img src={imageSrc} alt={alt} onError={handleError} className={imgClasses} />
+        <img src={imageSrc} alt={alt} onError={handleError} className={appliedImgClasses} />
       ) : (
-        <div className={`flex justify-center items-center ${iconClasses}`}>
-          <NewsIcon width={iconSize} height={iconSize} />
+        <div className={`flex justify-center items-center ${appliedIconWrapperClasses}`}>
+          <NewsIcon extraClasses={iconClasses} width={iconSize} height={iconSize} />
         </div>
       )}
     </>
