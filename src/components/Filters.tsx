@@ -1,41 +1,38 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice";
-import { setSourceFilter, setCategoryFilter, setOrderByFilter } from "../app/filtersSlice";
+import { setSourceFilter, setOrderByFilter } from "../app/filtersSlice";
 import { sortSearchResults } from "../utils/array";
 import { NYT, GUARDIAN, NEWS_ORG } from "../utils/constants";
 
 const Filter: React.FC = () => {
   const dispatch = useDispatch();
   const originalArticles = useSelector((state: RootState) => state.searchResults.originalArticles);
-  const searchResults = useSelector((state: RootState) => state.searchResults.articles);
-  const { sourceFilter, categoryFilter, orderByFilter } = useSelector((state: RootState) => state.filters);
+  const { sourceFilter, orderByFilter } = useSelector((state: RootState) => state.filters);
 
-  const filterBySource = (source: string) => {
-    if (source === "all") {
-      // Revert to the original articles when 'All Sources' is selected
-      dispatch(setSearchResults(originalArticles));
-    } else {
-      // Filter articles based on the selected source
-      const filteredArticles = searchResults.filter((article) => article.source === source);
-      dispatch(setSearchResults(filteredArticles));
+  const filterArticles = () => {
+    let filteredArticles = [...originalArticles];
+
+    // Apply source filter
+    if (sourceFilter !== "all") {
+      filteredArticles = filteredArticles.filter((article) => article.source === sourceFilter);
     }
+
+    // Sort the filtered articles by the selected order
+    filteredArticles = sortSearchResults(orderByFilter, filteredArticles);
+
+    // Dispatch the filtered and sorted articles
+    dispatch(setSearchResults(filteredArticles));
   };
 
-  const filterByCategory = (category: string) => {
-    if (category === "all") {
-      // Revert to the original articles when 'All Categories' is selected
-      dispatch(setSearchResults(originalArticles));
-    } else {
-      // Filter articles based on the selected source
-      const filteredArticles = originalArticles.filter((article) => article.source === category);
-      dispatch(setSearchResults(filteredArticles));
-    }
+  const handleSourceChange = (source: string) => {
+    dispatch(setSourceFilter(source));
+    filterArticles();
   };
 
-  const sortByOrder = (order: string) => {
-    const sortedArticles = sortSearchResults(order, searchResults);
-    dispatch(setSearchResults(sortedArticles));
+  const handleOrderChange = (order: string) => {
+    dispatch(setOrderByFilter(order as "asc" | "desc")); // Explicit cast here
+    filterArticles();
   };
 
   return (
@@ -43,10 +40,7 @@ const Filter: React.FC = () => {
       <select
         className="border border-gray-300 px-4 py-2"
         value={orderByFilter}
-        onChange={(e) => {
-          dispatch(setOrderByFilter(e.target.value as "asc" | "desc")); // Explicit cast here
-          sortByOrder(e.target.value);
-        }}
+        onChange={(e) => handleOrderChange(e.target.value)}
       >
         <option value="desc">Latest</option>
         <option value="asc">Oldest</option>
@@ -54,28 +48,12 @@ const Filter: React.FC = () => {
       <select
         className="border border-gray-300 px-4 py-2"
         value={sourceFilter}
-        onChange={(e) => {
-          dispatch(setSourceFilter(e.target.value));
-          filterBySource(e.target.value);
-        }}
+        onChange={(e) => handleSourceChange(e.target.value)}
       >
         <option value="all">All Sources</option>
         <option value={NYT}>{NYT}</option>
         <option value={GUARDIAN}>{GUARDIAN}</option>
         <option value={NEWS_ORG}>{NEWS_ORG}</option>
-      </select>
-      <select
-        className="border border-gray-300 px-4 py-2"
-        value={categoryFilter}
-        onChange={(e) => {
-          dispatch(setCategoryFilter(e.target.value));
-          filterByCategory(e.target.value);
-        }}
-      >
-        <option value="all">All Categories</option>
-        <option value="The New York Times">The New York Times</option>
-        <option value="The Guardian">The Guardian</option>
-        <option value="News Org">News Org</option>
       </select>
     </div>
   );
