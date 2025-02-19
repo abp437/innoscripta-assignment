@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
 import { setSearchResults } from "../app/searchResultsSlice";
@@ -10,7 +11,7 @@ const Filter: React.FC = () => {
   const originalArticles = useSelector((state: RootState) => state.searchResults.originalArticles);
   const { sourceFilter, orderByFilter } = useSelector((state: RootState) => state.filters);
 
-  const filterArticles = () => {
+  useEffect(() => {
     let filteredArticles = [...originalArticles];
 
     // Apply source filter
@@ -23,16 +24,14 @@ const Filter: React.FC = () => {
 
     // Dispatch the filtered and sorted articles
     dispatch(setSearchResults(filteredArticles));
-  };
+  }, [sourceFilter, orderByFilter, originalArticles, dispatch]);
 
   const handleSourceChange = (source: string) => {
     dispatch(setSourceFilter(source));
-    filterArticles();
   };
 
   const handleOrderChange = (order: string) => {
-    dispatch(setOrderByFilter(order as "asc" | "desc")); // Explicit cast here
-    filterArticles();
+    dispatch(setOrderByFilter(order as "asc" | "desc"));
   };
 
   return (
