@@ -6,7 +6,12 @@ export const formatDateToYesterday = () => {
   return today.toISOString().split("T")[0];
 };
 
-export const getpublicationTime = (dateString: string) => {
+export const getPublicationDate = (timeString: string) => {
   // Extract the date portion (YYYY-MM-DD) from the full ISO string
-  return dateString.split("T")[0];
+  const dateString = timeString.split("T")[0];
+  // Split the input string by the dash ("-")
+  const [year, month, day] = dateString.split("-");
+
+  // Return the formatted date as DD.MM.YYYY - German format
+  return `${day}.${month}.${year}`;
 };
