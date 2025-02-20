@@ -77,7 +77,7 @@ const Preferences: React.FC = () => {
         ) : (
           <button
             onClick={handleSkip}
-            className="absolute top-4 right-4 cursor-pointer text-gray-400 hover:text-gray-700 focus:outline-none"
+            className="absolute top-4 right-4 cursor-pointer text-gray-300 hover:text-gray-700 focus:outline-none"
           >
             Skip
           </button>

@@ -107,7 +107,7 @@ const NewsFeed: React.FC = () => {
 
           return (
             <div
-              key={`${article.url}-${article.publicationDate}`} // Ensuring uniqueness
+              key={`${article.url}-${article.publicationTime}`} // Ensuring uniqueness
               className="group overflow-hidden mb-4"
               ref={i === articles.length - 1 ? lastArticleRef : null} // Assign ref to the last article
             >
@@ -118,8 +118,16 @@ const NewsFeed: React.FC = () => {
                 iconSize={128}
               />
               <div className="py-2 border-b-1 border-gray-300">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2 text-ellipsis line-clamp-2">{article.title}</h3>
-                <p className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2">
+                <h3
+                  className="text-2xl font-bold text-gray-800 mb-2 text-ellipsis line-clamp-2 leading-tight"
+                  title={article.title}
+                >
+                  {article.title}
+                </h3>
+                <p
+                  className="text-gray-600 text-sm mb-2 overflow-hidden text-ellipsis line-clamp-2 leading-tight"
+                  title={article.description}
+                >
                   {article.description}
                 </p>
                 <ReadMoreLink url={article.url} extraClasses="block mb-2" />

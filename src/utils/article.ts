@@ -1,5 +1,5 @@
 import ArticleInterface from "../interfaces/ArticleInterface";
-import { getPublicationDate } from "./date";
+import { getpublicationTime } from "./date";
 import { NYT, GUARDIAN, NEWS_ORG } from "./constants";
 
 export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
@@ -7,8 +7,8 @@ export const convertNewsOrgResponse = (article: any): ArticleInterface => ({
   description: article.description || "No description available",
   url: article.url,
   urlToImage: article.urlToImage || null,
-  publicationDisplayDate: getPublicationDate(article.publishedAt),
-  publicationDate: article.publishedAt,
+  publicationDate: getpublicationTime(article.publishedAt),
+  publicationTime: article.publishedAt,
   subSource: article.source.name,
   source: NEWS_ORG,
 });
@@ -22,8 +22,8 @@ export const convertNYTimesResponse = (doc: any): ArticleInterface => ({
       ? doc.multimedia[2].url
       : `https://static01.nyt.com/${doc.multimedia[0].url}`
     : null,
-  publicationDisplayDate: getPublicationDate(doc.published_date),
-  publicationDate: doc.published_date,
+  publicationDate: getpublicationTime(doc.published_date),
+  publicationTime: doc.published_date,
   source: NYT,
 });
 
@@ -32,7 +32,7 @@ export const convertGuardianResponse = (article: any): ArticleInterface => ({
   description: `${article.sectionName} - ${article.webTitle}`,
   url: article.webUrl,
   urlToImage: article?.fields?.thumbnail || null,
-  publicationDisplayDate: getPublicationDate(article.webPublicationDate),
-  publicationDate: article.webPublicationDate,
+  publicationDate: getpublicationTime(article.webpublicationTime),
+  publicationTime: article.webpublicationTime,
   source: GUARDIAN,
 });

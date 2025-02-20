@@ -6,15 +6,23 @@ const SourceSeparator: React.FC<SourcePropsInterface> = ({ article, extraClasses
   const source = isSourceStr ? article.source : (article.source as Source)?.name;
 
   return (
-    <div className={`flex items-center flex-wrap ${extraClasses}`}>
-      <span className="roboto-bold text-sm text-gray-400">{source as string}</span>
+    <div className={`flex items-center basis-1/3 ${extraClasses}`}>
+      <span className="roboto-regular text-sm text-gray-400 truncate" title={source as string}>
+        {source as string}
+      </span>
       {article.subSource && (
-        <span className="roboto-bold text-sm text-gray-400 mx-2 border-l-2 border-gray-300 pl-2">
+        <span
+          className="roboto-regular text-sm text-gray-400 mx-2 border-l-1 border-gray-300 pl-2 truncate"
+          title={article.subSource} // Tooltip for subSource
+        >
           {article.subSource}
         </span>
       )}
-      <span className="roboto-bold text-sm text-gray-400 mx-2 border-l-2 border-gray-300 pl-2">
-        {article.publicationDisplayDate}
+      <span
+        className="roboto-regular text-sm text-gray-400 mx-2 border-l-1 border-gray-300 pl-2 truncate"
+        title={article.publicationDate} // Tooltip for publicationDate
+      >
+        {article.publicationDate}
       </span>
     </div>
   );
