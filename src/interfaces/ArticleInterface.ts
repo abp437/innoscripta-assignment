@@ -12,6 +12,7 @@ interface ArticleInterface {
   publicationDate: string;
   publicationTime: string;
   subSource?: string;
+  category?: string;
 }
 
 export default ArticleInterface;

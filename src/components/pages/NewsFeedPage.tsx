@@ -6,6 +6,7 @@ import SourceSeparator from "../common/SourceSeparator";
 import { convertNewsOrgResponse } from "../../utils/article";
 import ImageWithFallback from "../common/ImageWithFallback";
 import NewsFeedSkeleton from "../skeleton_loaders/NewsFeedSkeleton";
+import ArticleInterface from "../../interfaces/ArticleInterface";
 
 const NewsFeed: React.FC = () => {
   const [articles, setArticles] = useState<any[]>([]);
@@ -43,7 +44,12 @@ const NewsFeed: React.FC = () => {
       const responses = await Promise.all(fetchPromises);
 
       // Extract articles from responses and combine them
-      const allArticles = responses.flatMap((response) => response.data.articles);
+      const allArticles = responses.flatMap((response, index) => {
+        return response.data.articles.map((article: ArticleInterface) => ({
+          ...article,
+          category: categories[index],
+        }));
+      });
 
       // Filter out duplicates based on URL (or any unique property like 'id')
       const newArticles = allArticles.filter((article) => {
